@@ -11,6 +11,8 @@ import { OverlayPanelBasicDemo } from '../popup/popup.component';
 import { EventService } from '../../shared/eventService';
 import { EventModel } from '../../shared/eventModel';
 import { DialogBasicDemo } from '../editpopup/editpopup.component';
+import { Subscription } from 'rxjs';
+import { SidebarComponent } from '../../sidebar/sidebar.component';
 
 @Component({
   selector: 'app-calender-grid',
@@ -22,6 +24,9 @@ import { DialogBasicDemo } from '../editpopup/editpopup.component';
 export class CalenderGridComponent implements AfterViewInit ,OnInit{
   @ViewChild('op') overlayPanel!: OverlayPanel;
   @ViewChild('eventDialog')  eventDialog!: DialogBasicDemo;
+
+  subscription!:Subscription;
+
   mousePosition = { x: 0, y: 0};
   selectedEvent: any;
   myEvents:any
@@ -31,15 +36,29 @@ export class CalenderGridComponent implements AfterViewInit ,OnInit{
  constructor(private eventService:EventService,public dialog: MatDialog,private overlayPanelBasicDemo: OverlayPanelBasicDemo){}
   ngOnInit(): void {
     this.events = this.eventService.getEvents();
-    // Transform EventModel[] to EventInput[]
     this.myEvents = this.events.map(event => ({
       id: event.id,
       title: event.title,
-      start: event.date,
+      start: event.startDate,
+      end:event.endDate,
       describtion: event.extendedProps.describtion
     }));
-    // Now assign myEvents to calendarOptions.events
-    this.calendarOptions.events = this.myEvents;    
+    this.calendarOptions.events = this.myEvents; 
+
+    this.subscription=this.eventService.eventsChanged.subscribe(
+      (events:EventModel[])=>{
+        this.myEvents = this.events.map(event => ({
+          id: event.id,
+          title: event.title,
+          start: event.startDate,
+          end:event.endDate,
+          describtion: event.extendedProps.describtion
+        }));
+        this.calendarOptions.events = this.myEvents; 
+      }
+    )
+
+   
   }
 
 
@@ -57,7 +76,6 @@ export class CalenderGridComponent implements AfterViewInit ,OnInit{
       center: 'title',
       end: 'dayGridMonth,timeGridWeek,timeGridDay'
     },
-    // eventContent: this.renderEventContent.bind(this),
     dayHeaderContent: this.customDayHeader.bind(this)
   };
 
@@ -74,10 +92,10 @@ export class CalenderGridComponent implements AfterViewInit ,OnInit{
 
   handleEventClick(arg: EventClickArg) {
     this.eventDialog.eventDetails = arg.event;
-    console.log(arg.event)
+    console.log(arg.event.id)
     if (this.eventDialog) {
       
-      this.eventDialog.showDialog();
+      this.eventDialog.showDialog(arg.event.id);
     }
     
   }

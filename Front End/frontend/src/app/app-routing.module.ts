@@ -8,7 +8,8 @@ const routes: Routes = [
   {path:'',redirectTo:'/signin',pathMatch:"full"},
   {path:'signup',component:SignupComponent},
   {path:'signin',component:SigninComponent},
-  {path:'dashboard',component:CalenderGridComponent}
+  {path:'dashboard',component:CalenderGridComponent},
+  {path:'events',component:SigninComponent}
 ];
 
 @NgModule({

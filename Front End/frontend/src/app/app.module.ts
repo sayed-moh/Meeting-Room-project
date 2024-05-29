@@ -24,12 +24,16 @@ import { AvatarModule } from 'primeng/avatar';
 import { TooltipModule } from 'primeng/tooltip';
 import { ToolbarModule } from 'primeng/toolbar';
 import { SharedModule } from 'primeng/api/shared';
+import { AddeventComponent } from './calender/addevent/addevent.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { SharedServiceService } from './shared/shared-service.service';
 @NgModule({
   declarations: [
     AppComponent,
     SigninComponent,
     SignupComponent,
     CalenderGridComponent,
+    
 
    
     
@@ -49,10 +53,12 @@ import { SharedModule } from 'primeng/api/shared';
     InputTextModule,
     DialogBasicDemo,
     ToolbarTemplateDemo,
-    
+    AddeventComponent,
+    SidebarComponent,
+
     
   ],
-  providers: [EventService,OverlayPanelBasicDemo],
+  providers: [EventService,OverlayPanelBasicDemo,SharedServiceService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

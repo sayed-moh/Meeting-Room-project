@@ -6,15 +6,18 @@
                 <input type="text" id="meetingName" class="form-control form-control-lg"
                   name="meetingName" ngModel  placeholder="Enter a valid Meeting Name" />
             </div>
+          
             <div data-mdb-input-init class="form-outline mb-4">
-                <label class="form-label" for="meetingDate">Meeting Date</label>
-                <input type="date" id="meetingName" class="form-control form-control-lg"
-                  name="meetingDate" ngModel   />
+                <label class="form-label" for="meetingStartTime">Meeting Start Time</label>
+                <input type="datetime-local" id="meetingStartTime" class="form-control form-control-lg"
+                  name="meetingStartDate" ngModel  />
+                  
             </div>
             <div data-mdb-input-init class="form-outline mb-4">
-                <label class="form-label" for="meetingTime">Meeting Time</label>
-                <input type="time" id="meetingTime" class="form-control form-control-lg"
-                     />
+                <label class="form-label" for="meetingEndTime">Meeting End   Time</label>
+                <input type="datetime-local" id="meetingEndTime" class="form-control form-control-lg"
+                  name="meetingEndDate" ngModel  />
+                  
             </div>
             <div data-mdb-input-init class="form-outline mb-4">
                 <label class="form-label" for="meetingDescription">Meeting Description</label>
@@ -24,7 +27,7 @@
             <br>
             <div class="button-container">
                 <button pButton type="button" label="Cancel" class="button-space" (click)="visible=false"></button>
-                <button pButton type="button" label="Save"></button>
+                <button pButton type="button" label="Save" (click)="onSaveEdit()"></button>
               </div>
 
         </form>

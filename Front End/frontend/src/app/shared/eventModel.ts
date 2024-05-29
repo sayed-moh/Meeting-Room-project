@@ -1,14 +1,15 @@
 export class EventModel{
     id!: String;
     title!: String ;
-    date!: String;
+    startDate!:string;
+    endDate!:string;
     extendedProps: any;
     //describtion!: String;
-    constructor(id: string, title: string, date: string,  extendedProps: any) { 
+    constructor(id: string, title: string, startDate: string,endDate:any,  extendedProps: any) { 
     this.id = id;
     this.title = title;
-    this.date = date;
-   // this.describtion=describtion
+    this.startDate=startDate;
+    this.endDate=endDate;
     this.extendedProps = extendedProps ;
     
   }

@@ -3,8 +3,22 @@
 
     <div class="p-toolbar-group-left">
         <button pButton type="button" label="Home" icon="pi pi-home" class="p-button-text"></button>
-        <button pButton type="button" label="Profile" icon="pi pi-user" class="p-button-text"></button>
-        <button pButton type="button" label="Add Meeting" icon="pi pi-plus-circle" class="p-button-text"></button>
+        <button 
+        pButton 
+        type="button" 
+        label="Profile" 
+        icon="pi pi-user" 
+        class="p-button-text"
+        (click)="onSidebar()"
+        ></button>
+        <button
+         pButton 
+         type="button" 
+         label="Add Meeting" 
+         icon="pi pi-plus-circle" 
+         class="p-button-text"
+         (click)="onAddEvent()"
+         ></button>
     </div>
 
     <div class="p-toolbar-group-right">
@@ -18,3 +32,5 @@
         ></button>
     </div>
 </p-toolbar>
+
+<app-addevent #addEvent></app-addevent>
