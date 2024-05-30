@@ -27,12 +27,14 @@ import { SharedModule } from 'primeng/api/shared';
 import { AddeventComponent } from './calender/addevent/addevent.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { SharedServiceService } from './shared/shared-service.service';
+import { MyeventsComponent } from './myevents/myevents.component';
 @NgModule({
   declarations: [
     AppComponent,
     SigninComponent,
     SignupComponent,
     CalenderGridComponent,
+    
     
 
    
@@ -55,6 +57,7 @@ import { SharedServiceService } from './shared/shared-service.service';
     ToolbarTemplateDemo,
     AddeventComponent,
     SidebarComponent,
+    MyeventsComponent,
 
     
   ],

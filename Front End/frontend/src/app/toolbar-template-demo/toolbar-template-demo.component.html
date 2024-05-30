@@ -2,7 +2,14 @@
     [style]="{ 'border-radius': '3rem', 'background-image': 'linear-gradient(to right, #003973, #e5e5be)' }">
 
     <div class="p-toolbar-group-left">
-        <button pButton type="button" label="Home" icon="pi pi-home" class="p-button-text"></button>
+        <button 
+        pButton 
+        type="button" 
+        label="Home" 
+        icon="pi pi-home"
+        class="p-button-text"
+        (click)="toDashboard()"></button>
+        
         <button 
         pButton 
         type="button" 

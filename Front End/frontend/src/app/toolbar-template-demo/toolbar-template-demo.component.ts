@@ -33,6 +33,10 @@ export class ToolbarTemplateDemo {
     
   }
 
+  toDashboard()
+  {
+    this.router.navigate(['/dashboard'],{relativeTo:this.route})
+  }
 
   onSignout(){
     this.router.navigate(['/signin'],{relativeTo:this.route})

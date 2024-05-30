@@ -22,13 +22,17 @@ export class SidebarComponent implements OnInit {
  
   constructor(private sharedService: SharedServiceService ,private router:Router) {}
   ngOnInit(){
+    
+    this.data=false;
     this.subscription=this.sharedService.dataSource.subscribe(value => this.data = value);
     console.log(this.data);
   }
  
   goToEvents()
   {
-    this.data=false
-    this.router.navigate(["/events"])
+    this.data=false;
+    this.router.navigate(["/events"]);
+    
+    
   }
 }

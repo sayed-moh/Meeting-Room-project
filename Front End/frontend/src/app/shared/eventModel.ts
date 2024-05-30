@@ -12,6 +12,7 @@ export class EventModel{
     this.endDate=endDate;
     this.extendedProps = extendedProps ;
     
+    
   }
 
 }
