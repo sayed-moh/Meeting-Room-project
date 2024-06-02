@@ -23,6 +23,8 @@ export class DialogBasicDemo implements OnInit{
     id:string='';
     title: string = '';
     description: string = '';
+    
+    state: string = '';
     startDate:string ='';
     endDate:string='';
     date!: String ;
@@ -35,6 +37,7 @@ export class DialogBasicDemo implements OnInit{
     visible: boolean = false;
 
     formatDate(date: string | Date): string {
+      console.log("abl el if ",date);
       if (!date) return '';
       const d = new Date(date);
       const year = d.getFullYear();
@@ -42,6 +45,8 @@ export class DialogBasicDemo implements OnInit{
       const day = (`0${d.getDate()}`).slice(-2); // Add leading zero
       const hours = (`0${d.getHours()}`).slice(-2);
       const minutes = (`0${d.getMinutes()}`).slice(-2);
+      console.log("b3d el if ",date);
+      
       return `${year}-${month}-${day}T${hours}:${minutes}`;
     }
 
@@ -50,9 +55,11 @@ export class DialogBasicDemo implements OnInit{
             this.id=id
             this.title = this.eventDetails.title;
             this.description = this.eventDetails.extendedProps?.describtion || '';
-            // this.date = this.eventDetails.start;
-            this.startDate = this.formatDate(this.eventDetails.start) || '';
-            this.endDate=this.formatDate(this.eventDetails.end) || '';
+            this.state=this.eventDetails.extendedProps?.state || '';
+
+            this.startDate = this.formatDate(this.eventDetails.startDate)||this.formatDate(this.eventDetails.start) || '';
+            console.log("inside dialog",this.startDate)
+            this.endDate=this.formatDate(this.eventDetails.endDate)|| this.formatDate(this.eventDetails.end)|| '';
             this.form.setValue({
                 "meetingName":this.title,
                 "meetingDescription":this.description,
