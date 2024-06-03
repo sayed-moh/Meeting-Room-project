@@ -28,7 +28,6 @@ export class EventService{
         this.events[id]=event
         this.eventsChanged.next(this.events.slice())
     }
-
     deleteEvent(id:number)
     {
         const index = this.events.findIndex(event => Number(event.id) === id);
@@ -36,6 +35,6 @@ export class EventService{
         this.events.splice(index,1);
         this.eventsChanged.next(this.events.slice());
         }
- 
+
     }
 }
