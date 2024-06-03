@@ -28,9 +28,14 @@ export class EventService{
         this.events[id]=event
         this.eventsChanged.next(this.events.slice())
     }
-    deleteEvent(id:number,event:EventModel)
+
+    deleteEvent(id:number)
     {
-        this.events[id]=event;
-        this.eventsChanged.next(this.events.splice(id,1));
+        const index = this.events.findIndex(event => Number(event.id) === id);
+        if (index !== -1) {
+        this.events.splice(index,1);
+        this.eventsChanged.next(this.events.slice());
+        }
+ 
     }
 }

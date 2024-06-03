@@ -1,6 +1,6 @@
 export class EventModel{
-    id!: String;
-    title!: String ;
+    id!: string;
+    title!: string ;
     startDate!:string;
     endDate!:string;
     extendedProps: any;

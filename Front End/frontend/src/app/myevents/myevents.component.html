@@ -5,13 +5,16 @@
 <app-sidebar ></app-sidebar>
 <dialog-basic-demo #editEvent></dialog-basic-demo>
  
-<div class="card">
+
     <p-table
-        [style]="{  'background-color': 'red' }"
         [value]="events"
-        [tableStyle]="{ 'min-width': '50rem' }"
+        [tableStyle]="{ 'border-radius': '3rem','background-image': 'linear-gradient(to right, #003973, #e5e5be)',
+                            'width':'100%',
+                            'height':'100%',
+                            
+                            'font-size': 'small' }"
     >
-        <ng-template pTemplate="header">
+        <ng-template pTemplate="header" >
             <tr style="font-size: large;">
                 <th style="width:14%">Name</th>
                 <th style="width:14%">Description</th>
@@ -23,11 +26,7 @@
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-event>
-            <tr [style]="{ 'background-image': 'linear-gradient(to right, #003973, #e5e5be)',
-                            'width':'20%',
-                            'height':'100%',
-                            'color': 'black',
-                            'font-size': 'small' }">
+            <tr >
       
                 <td>{{ event.title }}</td>
                 <td>{{ event.extendedProps.describtion }}</td>
@@ -55,5 +54,4 @@
             </tr>
         </ng-template>
     </p-table>
-</div>
 </div>

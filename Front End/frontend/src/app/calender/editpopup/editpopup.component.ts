@@ -52,6 +52,7 @@ export class DialogBasicDemo implements OnInit{
             this.description = this.eventDetails.extendedProps?.describtion || '';
             // this.date = this.eventDetails.start;
             this.startDate = this.formatDate(this.eventDetails.start) || '';
+            console.log("****************"+this.eventDetails.start)
             this.endDate=this.formatDate(this.eventDetails.end) || '';
             this.form.setValue({
                 "meetingName":this.title,

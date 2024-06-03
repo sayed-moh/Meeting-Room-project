@@ -8,7 +8,6 @@ import { ToolbarTemplateDemo } from "../toolbar-template-demo/toolbar-template-d
 import { SidebarComponent } from "../sidebar/sidebar.component";
 
 import { ButtonModule } from 'primeng/button';
-import { Event } from '@angular/router';
 import { DialogBasicDemo } from '../calender/editpopup/editpopup.component';
 
 @Component({
@@ -21,8 +20,7 @@ import { DialogBasicDemo } from '../calender/editpopup/editpopup.component';
 export class MyeventsComponent {
 events!:EventModel[];
 @ViewChild('editEvent') editEvent!:DialogBasicDemo;
-first = 0;
-rows=2;
+
 constructor(private eventService:EventService)
 {
 
@@ -31,18 +29,21 @@ ngOnInit() {
   this.events=this.eventService.getEvents();
 }
 
-onEdit(event:EventModel)
+
+
+onEdit(eventModel:EventModel)
 {
-  console.log("helllooooo",event,this.editEvent.eventDetails);
-  this.editEvent.eventDetails = event;
-  this.editEvent.showDialog(String(event.id))
+  console.log("helllooooo",);
+  const index = this.events.findIndex(event => Number(event.id) === Number(eventModel.id));
+        if (index !== -1)
+          {
+          this.editEvent.eventDetails = eventModel;
+          this.editEvent.showDialog(String(index))
+          }
 }
-pageChange(event: { first: number; rows: any; }) {
-  this.first = event.first;
-  this.rows = event.rows;
-}
+
 ondelete(event:EventModel)
 {
-this.eventService.deleteEvent(Number(event.id),event);
+this.eventService.deleteEvent(Number(event.id));
 }
 }
