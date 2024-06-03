@@ -1,6 +1,5 @@
 package com.backend.fullProject.model;
 
-import lombok.Data;
 
 
 public class AuthenticationResponse {
