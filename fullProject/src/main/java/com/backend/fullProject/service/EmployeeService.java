@@ -11,5 +11,5 @@ public interface EmployeeService {
 	public Employee addEmployee(Employee myEmployee) throws Exception;
 	public Employee updateEmployee(Employee updatedEmployee)throws Exception;
 	public void deleteEmployee(int id) throws Exception;
-	
+	public Employee findByEmail(String email)throws Exception;
 }

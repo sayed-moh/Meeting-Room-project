@@ -40,4 +40,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 		employeeDao.deleteById(id);
 	}
 
+	@Override
+	public Employee findByEmail(String email) throws Exception {
+		return employeeDao.findByEmail(email);
+	}
+
 }
