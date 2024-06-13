@@ -27,12 +27,15 @@ public class Government {
 	@Column
 	private String name;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "countryId")
-	private Country country;
+//	@ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "countryId")
+//	private Country country;
 	
-	@OneToMany(fetch = FetchType.LAZY,mappedBy = "government")
-	private List<Office> offcies;
+	@Column
+	private int countryId;
+	
+//	@OneToMany(fetch = FetchType.LAZY,mappedBy = "government")
+//	private List<Office> offcies;
 	
 	public Government() {}
 
@@ -52,21 +55,29 @@ public class Government {
 		this.name = name;
 	}
 
-	public Country getCountry() {
-		return country;
+	public int getCountryId() {
+		return countryId;
 	}
 
-	public void setCountry(Country country) {
-		this.country = country;
+	public void setCountryId(int countryId) {
+		this.countryId = countryId;
 	}
 
-	public List<Office> getOffcies() {
-		return offcies;
-	}
+//	public Country getCountry() {
+//		return country;
+//	}
+//
+//	public void setCountry(Country country) {
+//		this.country = country;
+//	}
 
-	public void setOffcies(List<Office> offcies) {
-		this.offcies = offcies;
-	}
+//	public List<Office> getOffcies() {
+//		return offcies;
+//	}
+//
+//	public void setOffcies(List<Office> offcies) {
+//		this.offcies = offcies;
+//	}
 	
 	
 

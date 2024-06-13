@@ -36,10 +36,10 @@ public class MRServiceImpl implements MRService {
 	}
 
 	@Override
-	public MeetingRoom addMeetingRoom(List<Integer> empIds,String officeName, MeetingRoom newMR) throws Exception {
+	public MeetingRoom addMeetingRoom(List<Integer> empIds, MeetingRoom newMR) throws Exception {
 		List<Employee>listEmp=new ArrayList<Employee>();
-		Office myOffice=officeService.getOfficeByName(officeName);
-		System.out.println("ssssss "+empIds.size());
+//		Office myOffice=officeService.getOfficeByName(officeName);
+//		System.out.println("ssssss "+empIds.size());
 		for(int i=0;i<empIds.size();i++) {
 			Employee myEmployee=employeeService.getById(empIds.get(i));
 			myEmployee.getMeetingRooms().add(newMR);
@@ -50,11 +50,10 @@ public class MRServiceImpl implements MRService {
 		}
 		newMR.setEmployees(listEmp);
 		//System.out.println(myEmployee.toString());
-		newMR.setOffice(myOffice);
+//		newMR.setOffice(myOffice);
 		//newMR.getEmployees().add(myEmployee);
 		
-		myOffice.getMeetingRooms().add(newMR);
-		officeService.editOffice(myOffice);
+//		myOffice.getMeetingRooms().add(newMR);
 		return mrDao.save(newMR);
 
 	}
@@ -63,5 +62,12 @@ public class MRServiceImpl implements MRService {
 	public MeetingRoom updateMeetingRoom(MeetingRoom newMR) throws Exception {
 		return mrDao.save(newMR);
 	}
+
+	@Override
+	public List<MeetingRoom> getAllByOfficeId(int officeId) throws Exception {
+		return mrDao.findByOfficeId(officeId);
+	}
+
+
 
 }

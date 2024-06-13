@@ -8,7 +8,7 @@ public interface GovernmentService {
 	
 	public List<Government> getAllGov() throws Exception;
 	public Government getById(int id) throws Exception;
-	public Government addGov(String countryName,Government myGov) throws Exception;
+	public Government addGov(Government myGov) throws Exception;
 	public Government updateGov(Government myGov) throws Exception;
 	public Government findByGovName(String govName)throws Exception;
 

@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,7 @@ import com.backend.fullProject.service.OfficeService;
 
 @RestController
 @RequestMapping(value = "/api")
+@CrossOrigin
 public class OfficeController {
 
 	@Autowired
@@ -68,7 +70,6 @@ public class OfficeController {
 	
 	@PostMapping(value="/office")
 	public ResponseEntity<?> addOffice(@RequestBody OfficeDto addedOffice){
-		String govName=addedOffice.getGovName();
 		List<OfficeDto> officesDto=new ArrayList<OfficeDto>();
 		Office newOffice=new Office();
 		newOffice.setId(0);
@@ -76,7 +77,7 @@ public class OfficeController {
 		newOffice.setAddress(addedOffice.getAddress());
 		Office savedOffice=new Office();
 		try {
-			savedOffice=officeService.addOffice(govName,newOffice);
+			savedOffice=officeService.addOffice(newOffice);
 			officesDto.add(new OfficeDto(savedOffice));
 			return new ResponseEntity(new OfficeResponse("Office is added successfully ", officesDto),
 					HttpStatus.OK);
@@ -98,7 +99,8 @@ public class OfficeController {
 			myOffice=officeService.getById(updatedOffice.getId());
 			myOffice.setName(updatedOffice.getName());
 			myOffice.setAddress(updatedOffice.getAddress());
-			myOffice.setGovernment(govService.findByGovName(updatedOffice.getGovName()));
+//			myOffice.setGovernment(govService.findByGovName(updatedOffice.getGovName()));
+			myOffice.setGovernmentId(updatedOffice.getGovId());
 			savedOffice=officeService.editOffice(myOffice);
 			offices.add(new OfficeDto(savedOffice));
 			return new ResponseEntity (new OfficeResponse("Office with id : "+savedOffice.getId()+"  is updated successfully", offices),HttpStatus.OK);

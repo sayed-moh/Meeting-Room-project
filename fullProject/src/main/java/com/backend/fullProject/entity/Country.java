@@ -25,8 +25,8 @@ public class Country {
 	@Column
 	private String name;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "country")
-	private List<Government> governments;
+//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "country")
+//	private List<Government> governments;
 	
 	public Country() {}
 
@@ -48,13 +48,13 @@ public class Country {
 	
 	
 
-	public List<Government> getGovernments() {
-		return governments;
-	}
-
-	public void setGovernments(List<Government> governments) {
-		this.governments = governments;
-	}
+//	public List<Government> getGovernments() {
+//		return governments;
+//	}
+//
+//	public void setGovernments(List<Government> governments) {
+//		this.governments = governments;
+//	}
 
 	@Override
 	public String toString() {

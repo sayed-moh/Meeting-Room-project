@@ -11,7 +11,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import com.backend.fullProject.jwtconfig.JwtRequestFilter;
 import com.backend.fullProject.jwtconfig.JwtUtil;
@@ -52,18 +56,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager customAuthenticationManager() throws Exception {
         return authenticationManager();
     }
+    
+    
+    ///////////////////
+
+    ////////////////
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                
-                .antMatchers(HttpMethod.GET, "/api/**").hasRole("SENIOR")
-                .antMatchers(HttpMethod.POST, "/api/**").hasRole("SENIOR")
-                .antMatchers(HttpMethod.PUT, "/api/**").hasRole("JONUR")
-                .antMatchers(HttpMethod.DELETE, "/api/**").hasRole("JONUR")
-            
-                
+//                
+//                .antMatchers(HttpMethod.GET, "/api/**").hasRole("SENIOR")
+//                .antMatchers(HttpMethod.POST, "/api/**").hasRole("SENIOR")
+//                .antMatchers(HttpMethod.PUT, "/api/**").hasRole("JONUR")
+//                .antMatchers(HttpMethod.DELETE, "/api/**").hasRole("JONUR")
+                .antMatchers("/api/**").permitAll()
+
                 .antMatchers("/authenticate").permitAll()
                 .antMatchers("/signout").permitAll()
         

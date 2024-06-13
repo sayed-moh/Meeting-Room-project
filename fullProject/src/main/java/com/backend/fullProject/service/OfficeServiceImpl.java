@@ -30,12 +30,12 @@ public class OfficeServiceImpl implements OfficeService {
 	}
 
 	@Override
-	public Office addOffice(String govName,Office myOffice) throws Exception {
+	public Office addOffice(Office myOffice) throws Exception {
 
-		Government myGov=govService.findByGovName(govName);
-		myOffice.setGovernment(myGov);
-		myGov.getOffcies().add(myOffice);
-		govService.updateGov(myGov);
+//		Government myGov=govService.findByGovName(govName);
+//		myOffice.setGovernment(myGov);
+//		myGov.getOffcies().add(myOffice);
+//		govService.updateGov(myGov);
 		return officeDao.save(myOffice);
 	}
 

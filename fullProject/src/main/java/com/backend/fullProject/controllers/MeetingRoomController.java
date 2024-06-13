@@ -1,12 +1,16 @@
 package com.backend.fullProject.controllers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +24,7 @@ import com.backend.fullProject.service.MRService;
 
 @RestController
 @RequestMapping(value="/api")
+@CrossOrigin
 public class MeetingRoomController {
 	
 	@Autowired
@@ -43,11 +48,29 @@ public class MeetingRoomController {
 		}
 	}
 	
+	@GetMapping(value="/meeting-room/{id}")
+	public ResponseEntity<?> getAll(@PathVariable int id){
+		List<MRDto> mrDtos=new ArrayList<MRDto>();
+		MeetingRoom meetingRoom=new MeetingRoom();
+		try {
+			meetingRoom=mrService.getById(id);
+			mrDtos.add(new MRDto(meetingRoom));
+			
+			return new ResponseEntity (new MRResponse("meeting room retrived successfully", mrDtos),HttpStatus.OK);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity (new MRResponse("something Went wrong", mrDtos),HttpStatus.NOT_FOUND);
+
+		}
+	}
+	
+
+	
 	@PostMapping(value="/meeting-room")
 	public ResponseEntity<?> addMeetingRoom(@RequestBody MRDto newMR){
 		//int empId=newMR.getEmployeeId();
 		List<Integer> empIds=new ArrayList<Integer>();
-		String officeName=newMR.getOfficeName();
+//		String officeName=newMR.getOfficeName();
 		empIds=newMR.getEmployeeId();
 		List<MRDto> meetingRoomsDto=new ArrayList<MRDto>();
 		MeetingRoom savedMeetingRoom=new MeetingRoom();
@@ -58,7 +81,7 @@ public class MeetingRoomController {
 		meetingRoom.setFloor(newMR.getFloor());
 		meetingRoom.setStatus(newMR.getStatus());
 		try {
-			savedMeetingRoom=mrService.addMeetingRoom(empIds, officeName, meetingRoom);
+			savedMeetingRoom=mrService.addMeetingRoom(empIds, meetingRoom);
 			System.out.println("******* "+savedMeetingRoom.toString());
 			meetingRoomsDto.add(new MRDto(savedMeetingRoom));
 			return new ResponseEntity (new MRResponse("meeting rooms added successfully", meetingRoomsDto),HttpStatus.OK);

@@ -28,6 +28,8 @@ public class EmployeeDto {
 	
 	
 	private String role;
+	
+	private int officeId;
 
 //	private List<MeetingRoom> meetingRooms;
 //	
@@ -45,6 +47,7 @@ public class EmployeeDto {
 		this.password=employee.getPassword();
 		this.site=employee.getSite();
 		this.role=employee.getRole();
+		this.officeId=employee.getOfficeId();
 //		this.meetingRooms=employee.getMeetingRooms();
 //		this.events=employee.getEvents();
 	}
@@ -103,6 +106,14 @@ public class EmployeeDto {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	public int getOfficeId() {
+		return officeId;
+	}
+
+	public void setOfficeId(int officeId) {
+		this.officeId = officeId;
 	}
 
 //	public List<MeetingRoom> getMeetingRooms() {

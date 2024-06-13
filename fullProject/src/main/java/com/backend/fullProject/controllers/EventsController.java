@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.fullProject.dto.EventsDto;
+import com.backend.fullProject.dto.MRDto;
 import com.backend.fullProject.entity.Employee;
 import com.backend.fullProject.entity.Events;
 import com.backend.fullProject.model.EventsResponse;
@@ -27,6 +29,7 @@ import antlr.debug.Event;
 
 @RestController
 @RequestMapping(value="/api")
+@CrossOrigin(origins = "http://localhost:4200")
 public class EventsController {
 	
 	@Autowired
@@ -40,10 +43,17 @@ public class EventsController {
 	public ResponseEntity<?> getAll(){
 		List<EventsDto> myEventsDto=new ArrayList<EventsDto>();
 		List<Events> myEvents=new ArrayList<Events>();
+		
+		
+		
 		try {
 			myEvents=eventsService.getAll();
 			for(int i=0;i<myEvents.size();i++) {
-				myEventsDto.add(new EventsDto(myEvents.get(i)));
+				MRDto meetingRoomDto=new MRDto(meetingRoomService.getById(myEvents.get(i).getMeetingRoomId()));
+				EventsDto eventDto=new EventsDto(myEvents.get(i));
+				eventDto.setRoomDto(meetingRoomDto);
+				 
+				myEventsDto.add(eventDto);
 			}
 			return new ResponseEntity(new EventsResponse("all Events Retrived Successfully", myEventsDto),HttpStatus.OK);
 		}catch (Exception e) {
@@ -60,7 +70,11 @@ public class EventsController {
 		try {
 			myEvents=eventsService.getAllByEmpId(empId);
 			for(int i=0;i<myEvents.size();i++) {
-				myEventsDto.add(new EventsDto(myEvents.get(i)));
+				MRDto meetingRoomDto=new MRDto(meetingRoomService.getById(myEvents.get(i).getMeetingRoomId()));
+				EventsDto eventDto=new EventsDto(myEvents.get(i));
+				eventDto.setRoomDto(meetingRoomDto);
+				 
+				myEventsDto.add(eventDto);
 			}
 			return new ResponseEntity(new EventsResponse("all Events for employee id :"+empId +"Retrived Successfully", myEventsDto),HttpStatus.OK);
 		}catch (Exception e) {
@@ -74,7 +88,6 @@ public class EventsController {
 	public ResponseEntity<?> addEvent(@RequestBody EventsDto eventsDto){
 		int empId=eventsDto.getEmployeeId();
 		int meetingRoomId=eventsDto.getMeetingRoomId();
-		
 		Events myEvent=new Events();
 		Events savedEvent=new Events();
 		List<EventsDto> myEventsDto=new ArrayList<EventsDto>();
@@ -86,9 +99,13 @@ public class EventsController {
 		myEvent.setDescription(eventsDto.getDescription());
 		myEvent.setEndTime(eventsDto.getEndTime());
 		myEvent.setStatus(eventsDto.getStatus());
+		myEvent.setEmployeeId(eventsDto.getEmployeeId());
+		myEvent.setMeetingRoomId(eventsDto.getMeetingRoomId());
 		try {
-			savedEvent=eventsService.addEvent(empId, meetingRoomId, myEvent);
-			myEventsDto.add(new EventsDto(savedEvent));
+			savedEvent=eventsService.addEvent( myEvent);
+			EventsDto myEventDto=new EventsDto(savedEvent);
+			myEventDto.setRoomDto(eventsDto.getRoomDto());
+			myEventsDto.add(myEventDto);
 			return new ResponseEntity(new EventsResponse("Event is added Successfully", myEventsDto),HttpStatus.OK);
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -110,8 +127,9 @@ public class EventsController {
 			myEvent.setStartTime(eventDTO.getStartTime());
 			myEvent.setStatus(eventDTO.getStatus());
 			myEvent.setName(eventDTO.getName());
-			myEvent.setEmployee(employeeService.getById(eventDTO.getEmployeeId()));
-			myEvent.setMeetingRoom(meetingRoomService.getById(eventDTO.getMeetingRoomId()));
+//			myEvent.setEmployee(employeeService.getById(eventDTO.getEmployeeId()));
+			myEvent.setEmployeeId(eventDTO.getEmployeeId());
+			myEvent.setMeetingRoomId(eventDTO.getMeetingRoomId());
 			updatedEvent=eventsService.editEvent(myEvent);
 			EventsList.add(new EventsDto(updatedEvent));
 			return new ResponseEntity(new EventsResponse("Event is updated Successfully", EventsList),HttpStatus.OK);

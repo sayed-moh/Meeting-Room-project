@@ -6,14 +6,14 @@ public class GovernmentDto {
 	
 	private int id; 
 	private String name;
-	private String countryName;
+	private int countryId;
 	
 	public GovernmentDto() {}
 	
 	public GovernmentDto(Government myGovernment) {
 		this.id=myGovernment.getId();
 		this.name=myGovernment.getName();
-		this.countryName=myGovernment.getCountry().getName();
+		this.countryId=myGovernment.getCountryId();
 	}
 
 	public int getId() {
@@ -32,13 +32,14 @@ public class GovernmentDto {
 		this.name = name;
 	}
 
-	public String getCountryName() {
-		return countryName;
+	public int getCountryId() {
+		return countryId;
 	}
 
-	public void setCountryName(String countryName) {
-		this.countryName = countryName;
+	public void setCountryId(int countryId) {
+		this.countryId = countryId;
 	}
+
 	
 	
 	

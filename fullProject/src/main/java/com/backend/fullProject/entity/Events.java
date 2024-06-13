@@ -44,13 +44,17 @@ public class Events {
 	@Column
 	private String status;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "meetingRoomId")
-	private MeetingRoom meetingRoom;
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "meetingRoomId")
+//	private MeetingRoom meetingRoom;
+	@Column
+	private int meetingRoomId;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="employeeId")
-	private Employee employee;
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name="employeeId")
+//	private Employee employee;
+	@Column
+	private int employeeId;
 	
 	public Events() {}
 
@@ -102,21 +106,31 @@ public class Events {
 		this.description = description;
 	}
 
-	public MeetingRoom getMeetingRoom() {
-		return meetingRoom;
+//	public MeetingRoom getMeetingRoom() {
+//		return meetingRoom;
+//	}
+//
+//	public void setMeetingRoom(MeetingRoom meetingRoom) {
+//		this.meetingRoom = meetingRoom;
+//	}
+	
+	
+
+//	public Employee getEmployee() {
+//		return employee;
+//	}
+
+	public int getMeetingRoomId() {
+		return meetingRoomId;
 	}
 
-	public void setMeetingRoom(MeetingRoom meetingRoom) {
-		this.meetingRoom = meetingRoom;
+	public void setMeetingRoomId(int meetingRoomId) {
+		this.meetingRoomId = meetingRoomId;
 	}
-
-	public Employee getEmployee() {
-		return employee;
-	}
-
-	public void setEmployee(Employee employee) {
-		this.employee = employee;
-	}
+//
+//	public void setEmployee(Employee employee) {
+//		this.employee = employee;
+//	}
 
 	public String getStatus() {
 		return status;
@@ -124,6 +138,14 @@ public class Events {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public int getEmployeeId() {
+		return employeeId;
+	}
+
+	public void setEmployeeId(int employeeId) {
+		this.employeeId = employeeId;
 	}
 
 

@@ -30,11 +30,8 @@ public class GovernmentServiceImpl implements GovernmentService {
 	}
 
 	@Override
-	public Government addGov(String countryName,Government myGov) throws Exception {
-		Country myCountry=countryService.findCountryByName(countryName);
-		myGov.setCountry(myCountry);
-		myCountry.getGovernments().add(myGov);
-		countryService.editCountry(myCountry);
+	public Government addGov(Government myGov) throws Exception {
+
 		return govDao.save(myGov);
 	}
 

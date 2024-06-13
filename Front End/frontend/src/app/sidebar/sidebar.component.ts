@@ -25,14 +25,14 @@ export class SidebarComponent implements OnInit {
     
     this.data=false;
     this.subscription=this.sharedService.dataSource.subscribe(value => this.data = value);
-    console.log(this.data);
+    this.sharedService.changeData(false);
   }
  
   goToEvents()
   {
     this.data=false;
     this.router.navigate(["/events"]);
-    
+    this.sharedService.changeData(false);
     
   }
 }

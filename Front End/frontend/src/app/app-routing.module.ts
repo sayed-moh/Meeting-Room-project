@@ -4,13 +4,17 @@ import { SignupComponent } from './authenticate/signup/signup.component';
 import { SigninComponent } from './authenticate/signin/signin.component';
 import { CalenderGridComponent } from './calender/calender-grid/calender-grid.component';
 import { MyeventsComponent } from './myevents/myevents.component';
+import { AuthGuard } from './auth.guard';
+import { ApprovalComponent } from './approval/approval.component';
 
 const routes: Routes = [
   {path:'',redirectTo:'/signin',pathMatch:"full"},
   {path:'signup',component:SignupComponent},
   {path:'signin',component:SigninComponent},
-  {path:'dashboard',component:CalenderGridComponent},
-  {path:'events',component:MyeventsComponent}
+  {path:'dashboard',component:CalenderGridComponent ,canActivate:[AuthGuard]},
+  {path:'events',component:MyeventsComponent,canActivate:[AuthGuard]},
+  {path:'approve',component:ApprovalComponent ,canActivate:[AuthGuard]},
+
 ];
 
 @NgModule({

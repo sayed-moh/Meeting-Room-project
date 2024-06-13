@@ -45,13 +45,16 @@ public class Employee {
 	@Column
 	private String role;
 	
+	@Column
+	private int officeId;
+	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "empRoom",joinColumns = @JoinColumn(name = "empId"),
 	inverseJoinColumns = @JoinColumn(name = "roomId"))
 	private List<MeetingRoom> meetingRooms;
 	
-	@OneToMany(fetch = FetchType.LAZY,mappedBy = "employee")
-	private List<Events> events;
+//	@OneToMany(fetch = FetchType.LAZY,mappedBy = "employee")
+//	private List<Events> events;
 	
 	
 	public Employee() {}
@@ -123,18 +126,28 @@ public class Employee {
 	}
 	
 
-	public List<Events> getEvents() {
-		return events;
-	}
-
-	public void setEvents(List<Events> events) {
-		this.events = events;
-	}
-
+//	public List<Events> getEvents() {
+//		return events;
+//	}
+//
+//	public void setEvents(List<Events> events) {
+//		this.events = events;
+//	}
+	
+	
+	
 	@Override
 	public String toString() {
 		return "Employee [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
 				+ ", password=" + password + ", site=" + site + ", role=" + role + "]";
+	}
+
+	public int getOfficeId() {
+		return officeId;
+	}
+
+	public void setOfficeId(int officeId) {
+		this.officeId = officeId;
 	}
 	
 	

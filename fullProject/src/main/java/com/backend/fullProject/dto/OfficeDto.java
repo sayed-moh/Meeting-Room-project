@@ -7,7 +7,7 @@ public class OfficeDto {
 	private int id;
 	private String name;
 	private String address;
-	private String govName;
+	private int govId;
 	
 	public OfficeDto() {}
 
@@ -15,7 +15,7 @@ public class OfficeDto {
 		this.id=myOffice.getId();
 		this.name = myOffice.getName();
 		this.address = myOffice.getAddress();
-		this.govName = myOffice.getGovernment().getName();
+		this.govId = myOffice.getGovernmentId();
 	}
 
 	public int getId() {
@@ -42,13 +42,15 @@ public class OfficeDto {
 		this.address = address;
 	}
 
-	public String getGovName() {
-		return govName;
+	public int getGovId() {
+		return govId;
 	}
 
-	public void setGovName(String govName) {
-		this.govName = govName;
+	public void setGovId(int govId) {
+		this.govId = govId;
 	}
+
+	
 	
 	
 

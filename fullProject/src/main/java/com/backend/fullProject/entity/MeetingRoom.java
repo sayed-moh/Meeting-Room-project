@@ -30,15 +30,18 @@ public class MeetingRoom {
 	@Column
 	private String status;
 	
-	@ManyToOne
-	@JoinColumn(name = "officeId")
-	private Office office;
+//	@ManyToOne
+//	@JoinColumn(name = "officeId")
+//	private Office office;
+	
+	@Column
+	private int officeId;
 	
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "meetingRooms")
 	private List<Employee> employees;
 	
-	@OneToMany(fetch = FetchType.LAZY,mappedBy = "meetingRoom")
-	private List<Events> events;
+//	@OneToMany(fetch = FetchType.LAZY,mappedBy = "meetingRoom")
+//	private List<Events> events;
 	
 	public MeetingRoom() {}
 
@@ -66,16 +69,26 @@ public class MeetingRoom {
 		this.status = status;
 	}
 
-	public Office getOffice() {
-		return office;
-	}
-
-	public void setOffice(Office office) {
-		this.office = office;
-	}
+//	public Office getOffice() {
+//		return office;
+//	}
+//
+//	public void setOffice(Office office) {
+//		this.office = office;
+//	}
+	
+	
 
 	public List<Employee> getEmployees() {
 		return employees;
+	}
+
+	public int getOfficeId() {
+		return officeId;
+	}
+
+	public void setOfficeId(int officeId) {
+		this.officeId = officeId;
 	}
 
 	public void setEmployees(List<Employee> employees) {
@@ -83,19 +96,19 @@ public class MeetingRoom {
 	}
 	
 
-	public List<Events> getEvents() {
-		return events;
-	}
+//	public List<Events> getEvents() {
+//		return events;
+//	}
+//
+//	public void setEvents(List<Events> events) {
+//		this.events = events;
+//	}
 
-	public void setEvents(List<Events> events) {
-		this.events = events;
-	}
-
-	@Override
-	public String toString() {
-		return "MeetingRoom [id=" + id + ", floor=" + floor + ", status=" + status + ", office=" + office
-				+ ", employees=" + employees + ", events=" + events + "]";
-	}
+//	@Override
+//	public String toString() {
+//		return "MeetingRoom [id=" + id + ", floor=" + floor + ", status=" + status + ", office=" + office
+//				+ ", employees=" + employees + ", events=" + events + "]";
+//	}
 	
 	
 	

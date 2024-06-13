@@ -8,7 +8,7 @@ public interface OfficeService {
 	
 	public List<Office> getAll()throws Exception;
 	public Office getById(int id)throws Exception;
-	public Office addOffice(String govName,Office myOffice)throws Exception;
+	public Office addOffice(Office myOffice)throws Exception;
 	public Office editOffice(Office myOffice)throws Exception;
 	public Office getOfficeByName(String officeName)throws Exception;
 	

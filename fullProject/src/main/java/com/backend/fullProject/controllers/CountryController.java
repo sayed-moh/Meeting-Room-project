@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,10 +22,13 @@ import com.backend.fullProject.service.CountryService;
 
 @RestController
 @RequestMapping(value="/api")
+@CrossOrigin
 public class CountryController {
 	
 	@Autowired
 	private CountryService countryService;
+	
+
 	
 	@GetMapping(value="/country")
 	public ResponseEntity<?> getAll(){

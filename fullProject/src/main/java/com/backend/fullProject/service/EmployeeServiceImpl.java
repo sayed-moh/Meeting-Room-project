@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.backend.fullProject.dao.EmployeeDao;
 import com.backend.fullProject.entity.Employee;
+import com.backend.fullProject.entity.MeetingRoom;
 
 
 @Service
@@ -43,6 +44,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public Employee findByEmail(String email) throws Exception {
 		return employeeDao.findByEmail(email);
+	}
+
+	@Override
+	public List<MeetingRoom> getMeetingRoomsByEmployeeId(int empId) throws Exception {
+		// TODO Auto-generated method stub
+		  return employeeDao.findByIdWithMeetingRooms(empId)
+                .orElseThrow(() -> new RuntimeException("Employee not found"))
+                .getMeetingRooms();
 	}
 
 }

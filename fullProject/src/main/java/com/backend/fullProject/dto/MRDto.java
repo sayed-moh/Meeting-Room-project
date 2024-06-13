@@ -11,7 +11,7 @@ public class MRDto {
 	private String floor;
 	private String status;
 	private List<Integer> employeeId=new ArrayList<Integer>();
-	private String officeName;
+	private int officeId;
 	
 	public MRDto() {}
 	
@@ -20,7 +20,7 @@ public class MRDto {
 		this.id=meetingRoom.getId();
 		this.floor=meetingRoom.getFloor();
 		this.status=meetingRoom.getStatus();
-		this.officeName=meetingRoom.getOffice().getName();
+		this.officeId=meetingRoom.getOfficeId();
 		for(int i=0;i<meetingRoom.getEmployees().size();i++) {
 			employeeId.add(meetingRoom.getEmployees().get(i).getId());
 		}
@@ -60,15 +60,23 @@ public class MRDto {
 		this.employeeId = employeeId;
 	}
 
-	public String getOfficeName() {
-		return officeName;
+	public int getOfficeId() {
+		return officeId;
 	}
 
-	public void setOfficeName(String officeName) {
-		this.officeName = officeName;
+	public void setOfficeId(int officeId) {
+		this.officeId = officeId;
 	}
+
+//	public String getOfficeName() {
+//		return officeName;
+//	}
+//
+//	public void setOfficeName(String officeName) {
+//		this.officeName = officeName;
+//	}
 	
-
+	
 	
 	
 }

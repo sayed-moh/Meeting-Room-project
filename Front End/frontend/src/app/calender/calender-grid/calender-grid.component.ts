@@ -26,37 +26,71 @@ export class CalenderGridComponent implements AfterViewInit ,OnInit{
   @ViewChild('eventDialog')  eventDialog!: DialogBasicDemo;
 
   subscription!:Subscription;
-
+  eventsFetched = false;
   mousePosition = { x: 0, y: 0};
   selectedEvent: any;
   myEvents:any
+  eventsBackend!:EventModel[]
+  events!:EventModel[]
 
-  events:EventModel[]=[]
+   mapEventModelToFullCalendarEvent(eventModel: EventModel): any {
+    return {
+      id: eventModel.id,
+      title: eventModel.name,
+      start: new Date(eventModel.date + 'T' + eventModel.startTime),
+      end: new Date(eventModel.date + 'T' + eventModel.endTime),
+      description: eventModel.description,
+      status: eventModel.status,
+      // Add any additional properties you want to pass to FullCalendar
+    };
+  }
+
 
  constructor(private eventService:EventService,public dialog: MatDialog,private overlayPanelBasicDemo: OverlayPanelBasicDemo){}
   ngOnInit(): void {
-    this.events = this.eventService.getEvents();
-    this.myEvents = this.events.map(event => ({
-      id: event.id,
-      title: event.title,
-      start: event.startDate,
-      end:event.endDate,
-      describtion: event.extendedProps.describtion
-    }));
-    this.calendarOptions.events = this.myEvents; 
-
-    this.subscription=this.eventService.eventsChanged.subscribe(
-      (events:EventModel[])=>{
-        this.myEvents = this.events.map(event => ({
-          id: event.id,
-          title: event.title,
-          start: event.startDate,
-          end:event.endDate,
-          describtion: event.extendedProps.describtion
-        }));
+    this.eventsBackend=[];
+    this.eventService.eventsChanged.subscribe(
+      (data:EventModel[])=>{
+        this.eventsBackend=data
+        this.myEvents=this.eventsBackend.map(
+          event=>({
+            id: event.id,
+            title: event.name,
+            start: new Date(event.date + 'T' + event.startTime),
+            end: new Date(event.date + 'T' + event.endTime),
+            description: event.description,
+            status: event.status,
+            meetingRoomId:event.meetingRoomId,
+            employeeId:event.employeeId
+          })
+            
+        )
         this.calendarOptions.events = this.myEvents; 
+        this.eventsFetched=true;
       }
     )
+    this.eventService.getEvents();
+    // this.events = this.eventService.getEvents();
+    // this.myEvents = this.events.map(event => ({
+    //   id: event.id,
+    //   title: event.title,
+    //   start: event.startDate,
+    //   end:event.endDate,
+    //   describtion: event.extendedProps.describtion
+    // }));
+    
+    // this.subscription=this.eventService.eventsChanged.subscribe(
+    //   (events:EventModel[])=>{
+    //     this.myEvents = this.events.map(event => ({
+    //       id: event.id,
+    //       title: event.title,
+    //       start: event.startDate,
+    //       end:event.endDate,
+    //       describtion: event.extendedProps.describtion
+    //     }));
+    //     this.calendarOptions.events = this.myEvents; 
+    //   }
+    // )
 
    
   }
@@ -65,12 +99,12 @@ export class CalenderGridComponent implements AfterViewInit ,OnInit{
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
     initialView: 'dayGridMonth',
-    hiddenDays: [4, 5], // 0=Sunday, 6=Saturday, hide these days
+   // hiddenDays: [4, 5], // 0=Sunday, 6=Saturday, hide these days
     dateClick: this.handleDateClick.bind(this),
     eventClick: this.handleEventClick.bind(this),
     eventMouseEnter: this.handleEventMouseEnter.bind(this),
     eventMouseLeave: this.handleEventMouseLeave.bind(this),
-
+    
     headerToolbar: {
       start: 'prev,next today',
       center: 'title',

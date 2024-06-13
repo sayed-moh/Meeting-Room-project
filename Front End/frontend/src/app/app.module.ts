@@ -7,7 +7,6 @@ import { AppComponent } from './app.component';
 import { DropdownComponent } from './dropdown/dropdown.component';
 import { SigninComponent } from './authenticate/signin/signin.component';
 import { SignupComponent } from './authenticate/signup/signup.component';
-import { FormsModule } from '@angular/forms';
 import { CalenderGridComponent } from './calender/calender-grid/calender-grid.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FullCalendarModule } from '@fullcalendar/angular';
@@ -24,14 +23,20 @@ import { AvatarModule } from 'primeng/avatar';
 import { TooltipModule } from 'primeng/tooltip';
 import { ToolbarModule } from 'primeng/toolbar';
 import { SharedModule } from 'primeng/api/shared';
-import { AddeventComponent } from './calender/addevent/addevent.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { SharedServiceService } from './shared/shared-service.service';
 import { MyeventsComponent } from './myevents/myevents.component';
+import { AuthService } from './authenticate/auth.service';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { AuthInterceptor } from './auth.interceptor';
+import { DropdownModule } from 'primeng/dropdown';
+import { AddeventComponent } from './calender/addevent/addevent.component';
+import { ApprovalComponent } from './approval/approval.component';
+
 @NgModule({
   declarations: [
     AppComponent,
-    SigninComponent,
     SignupComponent,
     CalenderGridComponent,
     
@@ -45,7 +50,6 @@ import { MyeventsComponent } from './myevents/myevents.component';
     BrowserAnimationsModule,
     AppRoutingModule,DropdownComponent,FormsModule,
     MatDialogModule,
-    FormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
@@ -58,10 +62,15 @@ import { MyeventsComponent } from './myevents/myevents.component';
     AddeventComponent,
     SidebarComponent,
     MyeventsComponent,
+    HttpClientModule,
+    SigninComponent,
+    DropdownModule,    
+    ApprovalComponent,
 
-    
   ],
-  providers: [EventService,OverlayPanelBasicDemo,SharedServiceService],
+  providers: [EventService,OverlayPanelBasicDemo,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    ,SharedServiceService,AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

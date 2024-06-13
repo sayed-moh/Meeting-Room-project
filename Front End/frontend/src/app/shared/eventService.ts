@@ -1,29 +1,102 @@
-import { Subject } from "rxjs";
+import { BehaviorSubject, Observable, Subject, map } from "rxjs";
 import { EventModel } from "./eventModel";
 import { state } from "@angular/animations";
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 
 
+
+@Injectable()
 export class EventService{
-    private events:EventModel[]=[
-        new EventModel('0','studying','2024-06-01T10:00:00','2024-06-01T12:00:00',{describtion:"i am studying full stack by angular and springboot",state:"pending"}),
-        new EventModel('1','working','2024-05-05T11:00:00','2024-05-05T12:30:00',{describtion:"i am working full stack by angular and springboot",state:"pending"}),
-        new EventModel('2','Playing','2024-05-29T13:00:00','2024-05-29T15:30:00',{describtion:"i am Playing full stack by angular and springboot",state:"pending"})
 
-    ]
-    eventsChanged=new Subject<EventModel[]>()
+    constructor(private http:HttpClient){}
+    private apiUrl='http://localhost:8030/api/events'
+   
+
+     events:EventModel[]=[    ]
+    eventsChanged = new BehaviorSubject<EventModel[]>([]);
 
     getEventLength():string{
         return (this.events.length).toString();
     }
-    getEvents():EventModel[]{
-        return this.events;
+
+    getEvents():void{
+         this.http.get<{message:string,data:any[]}>(this.apiUrl).pipe(
+            
+            map(response=>response.data)
+            ).subscribe(
+                events => {
+                    this.events = events;
+                    this.eventsChanged.next(this.events.slice());
+                    console.log(events)
+                },
+                error => {
+                    console.error('Error fetching events:', error);
+                }
+            );
+    }
+    getMeetingRoomsByOfficeId(officeId:number):Observable<any[]>{
+        return this.http.get<{message:string,data:any[]}>(`http://localhost:8030/api/meeting-room/officeId/${officeId}`).pipe(
+            map(response=>response.data)
+        )
     }
 
-    addEvent(event: EventModel): void {
-        this.events.push(event);
-        this.eventsChanged.next(this.events.slice())
-      }
+    getMeetingRoomsById(id:number):Observable<string>{
+        return this.http.get<{message:string,data:any[]}>(`http://localhost:8030/api/meeting-room/${id}`).pipe(
+            map(response=>response.data[0].floor)
+        )
+    }
+   
+    getEventsByEmpId(empId:number):void{
+         this.http.get<{message:string,data:any[]}>(`http://localhost:8030/api/events/empId/${empId}`).pipe(
+            map(response=>response.data)
+        ) .subscribe(
+            events => {
+                this.events = events;
+                this.eventsChanged.next(this.events.slice());
+                console.log(events)
+            },
+            error => {
+                console.error('Error fetching events:', error);
+            }
+        );
+    }
 
+    getPendingEventsForEmpId(empId:number):void{
+         this.http.get<{message:string,data:any[]}>(`http://localhost:8030/api/events/pending/${empId}`).pipe(
+            map(response=>response.data)
+        )
+        .subscribe(
+            events => {
+                this.events = events;
+        //   this.eventsChanged.next([...this.events]);
+
+                this.eventsChanged.next(this.events.slice());
+            },
+            error => {
+                console.error('Error fetching events:', error);
+            } 
+        )
+    }
+    editEventStatus(eventModel:EventModel):void{
+        this.http.put<{message:string,data:any[]}>(`http://localhost:8030/api/events`,eventModel).pipe(
+            map(response=>response.data[0])
+        ).subscribe(
+           event=>{
+            console.log(event.status)
+           } 
+        )
+    }
+
+
+    getEventData(meetingRoomId:number,employeeId:number):Observable<{meetingRoomName:string,employeeName:string}>{
+        return this.http.get<{meetingRoomName:string,employeeName:string}>(`http://localhost:8030/api/meeting-room/getname/${meetingRoomId}/${employeeId}`)
+    }
+    addEvent(event:EventModel):Observable<any[]>{
+        return this.http.post<{message:string,data:any[]}>(`http://localhost:8030/api/events`,event).pipe(
+            map(response =>response.data )
+        );
+    }
     updateEvent(id:number,event:EventModel){
         this.events[id]=event
         this.eventsChanged.next(this.events.slice())

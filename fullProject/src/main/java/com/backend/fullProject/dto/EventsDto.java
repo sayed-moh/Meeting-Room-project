@@ -3,6 +3,7 @@ package com.backend.fullProject.dto;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import com.backend.fullProject.dao.MeetingRoomDao;
 import com.backend.fullProject.entity.Events;
 
 public class EventsDto {
@@ -25,7 +26,8 @@ public class EventsDto {
 	private String description;
 	
 	private int meetingRoomId;
-	
+	private EmployeeDto employeeDto;
+	private MRDto roomDto;
 	private int employeeId;
 	
 	public EventsDto() {}
@@ -37,8 +39,8 @@ public class EventsDto {
 		this.date=event.getDate();
 		this.startTime=event.getStartTime();
 		this.endTime=event.getEndTime();
-		this.employeeId=event.getEmployee().getId();
-		this.meetingRoomId=event.getMeetingRoom().getId();
+		this.employeeId=event.getEmployeeId();
+		this.meetingRoomId=event.getMeetingRoomId();
 	}
 	public int getId() {
 		return id;
@@ -93,6 +95,18 @@ public class EventsDto {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	public MRDto getRoomDto() {
+		return roomDto;
+	}
+	public void setRoomDto(MRDto roomDto) {
+		this.roomDto = roomDto;
+	}
+	public EmployeeDto getEmployeeDto() {
+		return employeeDto;
+	}
+	public void setEmployeeDto(EmployeeDto employeeDto) {
+		this.employeeDto = employeeDto;
 	}
 
 	

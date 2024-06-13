@@ -16,25 +16,29 @@
     >
         <ng-template pTemplate="header" >
             <tr style="font-size: large;">
-                <th style="width:14%">Name</th>
-                <th style="width:14%">Description</th>
-                <th style="width:14%">Start Time</th>
-                <th style="width:14%">End Time</th>
-                <th style="width:14%">Statues</th>
-                <th style="width:14%">Edit Action</th>
-                <th style="width:14%">Delete Action</th>
+                <th style="width:12.5%">Name</th>
+                <th style="width:12.5%">Date</th>
+                <th style="width:12.5%">Start Time</th>
+                <th style="width:12.5%">End Time</th>
+                <th style="width:12.5%">Description</th>
+                <th style="width:12.5%">Meeting Room</th>
+                <th style="width:12.5%">Statues</th>
+                <th style="width:12.5%">Edit Action</th>
+                <th style="width:12.5%">Delete Action</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-event>
             <tr >
       
-                <td>{{ event.title }}</td>
-                <td>{{ event.extendedProps.describtion }}</td>
-                <td>{{ event.startDate }}</td>
-                <td>{{ event.endDate }}</td>
-                <td >
-                    {{ event.extendedProps.state}}
-                </td>
+                <td>{{ event.name }}</td>
+                <td>{{ event.date}}</td>
+                <td>{{ event.startTime }}</td>
+                <td>{{ event.endTime }}</td>
+                <td>{{ event.description}}</td>
+                <td>{{ event.roomDto.floor}}</td>
+
+                <td >{{ event.status}}</td>
+
                 <td>
                     <p-button 
                     label="Edit" 

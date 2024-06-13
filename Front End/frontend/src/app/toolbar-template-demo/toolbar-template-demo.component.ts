@@ -10,23 +10,28 @@ import { EventService } from '../shared/eventService';
 import { EventModel } from '../shared/eventModel';
 import { SharedServiceService } from '../shared/shared-service.service';
 import { SidebarComponent } from '../sidebar/sidebar.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'toolbar-template-demo',
     templateUrl: './toolbar-template-demo.component.html',
     standalone: true,
-    imports: [ToolbarModule, ButtonModule, AvatarModule, SharedModule, AddeventComponent, SidebarComponent]
+    imports: [ToolbarModule, ButtonModule, AvatarModule, SharedModule, AddeventComponent, SidebarComponent,CommonModule]
 })
 export class ToolbarTemplateDemo {
   @ViewChild('addEvent') addEvent!:AddeventComponent;
-
+  seen: boolean=false;
   constructor(private sharedService:SharedServiceService,private route:ActivatedRoute,private router:Router,private eventService:EventService){}
 
 
   onSidebar(){
     this.sharedService.changeData(true)
   }
-
+  makeitseen()
+  {
+    this.seen=!this.seen;
+    console.log(this.seen)
+  }
   onAddEvent(){
     console.log("hello dear")
     this.addEvent.showDialog()
@@ -37,8 +42,12 @@ export class ToolbarTemplateDemo {
   {
     this.router.navigate(['/dashboard'],{relativeTo:this.route})
   }
-
+  toApprove(){
+   
+    this.router.navigate(['/approve'],{relativeTo:this.route})
+  }
   onSignout(){
+    localStorage.removeItem('jwt');
     this.router.navigate(['/signin'],{relativeTo:this.route})
   }
 }

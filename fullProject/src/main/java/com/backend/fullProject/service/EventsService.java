@@ -10,8 +10,8 @@ public interface EventsService {
 	public List<Events> getAllByEmpId(int empId) throws Exception;
 
 	public Events getById(int id)throws Exception;
-	public Events addEvent (int empId,int meetingRoomId,Events event)throws Exception;
+	public Events addEvent (Events event)throws Exception;
 	public Events editEvent (Events updatedEvent)throws Exception;
 	public void deleteEvent(int id)throws Exception;
-	
+	public List<Events> getPendingEvents(int empId) throws Exception;
 }

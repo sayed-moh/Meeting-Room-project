@@ -26,7 +26,16 @@
          class="p-button-text"
          (click)="onAddEvent()"
          ></button>
+         <button
+         pButton
+         type="button"
+         label="Approve Requests"
+         icon="pi pi-home"
+         class="p-button-text"
+         *ngIf="seen===true"
+         (click)="toApprove()"></button>
     </div>
+        <button pButton (click)="makeitseen()">Toogle Button</button>\
 
     <div class="p-toolbar-group-right">
         <button 

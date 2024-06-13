@@ -30,12 +30,14 @@ public class Office {
 	@Column
 	private String address;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="governmentId")
-	private Government government;
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name="governmentId")
+//	private Government government;
+	@Column
+	private int governmentId;
 	
-	@OneToMany(mappedBy = "office")
-	private List<MeetingRoom> meetingRooms;
+//	@OneToMany(mappedBy = "office")
+//	private List<MeetingRoom> meetingRooms;
 	
 	public Office() {}
 
@@ -63,21 +65,30 @@ public class Office {
 		this.address = address;
 	}
 
-	public Government getGovernment() {
-		return government;
+//	public Government getGovernment() {
+//		return government;
+//	}
+//
+//	public void setGovernment(Government government) {
+//		this.government = government;
+//	}
+	
+//
+//	public List<MeetingRoom> getMeetingRooms() {
+//		return meetingRooms;
+//	}
+
+	public int getGovernmentId() {
+		return governmentId;
 	}
 
-	public void setGovernment(Government government) {
-		this.government = government;
+	public void setGovernmentId(int governmentId) {
+		this.governmentId = governmentId;
 	}
 
-	public List<MeetingRoom> getMeetingRooms() {
-		return meetingRooms;
-	}
-
-	public void setMeetingRooms(List<MeetingRoom> meetingRooms) {
-		this.meetingRooms = meetingRooms;
-	}
+//	public void setMeetingRooms(List<MeetingRoom> meetingRooms) {
+//		this.meetingRooms = meetingRooms;
+//	}
 	
 	
 	

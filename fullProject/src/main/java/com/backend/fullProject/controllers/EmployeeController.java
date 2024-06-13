@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,7 @@ import com.backend.fullProject.service.EmployeeService;
 
 @RestController
 @RequestMapping(value="/api")
+@CrossOrigin
 public class EmployeeController {
 	
 	@Autowired
@@ -72,6 +74,7 @@ public class EmployeeController {
 		myEmployee.setPassword(myEmployeeDto.getPassword());
 		myEmployee.setRole(myEmployeeDto.getRole());
 		myEmployee.setSite(myEmployeeDto.getSite());
+		myEmployee.setOfficeId(myEmployeeDto.getOfficeId());
 		List<EmployeeDto> myEmployees=new ArrayList<EmployeeDto>();
 		try {
 			employee=employeeService.addEmployee(myEmployee);
@@ -97,6 +100,8 @@ public class EmployeeController {
 			myEmployee.setPassword(myEmployeeDto.getPassword());
 			myEmployee.setRole(myEmployeeDto.getRole());
 			myEmployee.setSite(myEmployeeDto.getSite());
+			myEmployee.setOfficeId(myEmployeeDto.getOfficeId());
+
 			myEmployeeee=employeeService.updateEmployee(myEmployee);
 			EmployeeDto employee=new EmployeeDto(myEmployeeee);
 			myEmployees.add(employee);

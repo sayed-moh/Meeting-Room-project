@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,7 @@ import com.backend.fullProject.service.GovernmentService;
 
 @RestController
 @RequestMapping(value="/api")
+@CrossOrigin
 public class GovernmentController {
 	
 	@Autowired
@@ -67,14 +69,13 @@ public class GovernmentController {
 //	
 	@PostMapping(value="/government")
 	public ResponseEntity<?> addGov(@RequestBody GovernmentDto myNewGov){
-		String countryName=myNewGov.getCountryName();
 		Government savedGovernment=new Government();
 		Government newGovernment=new Government();
 		List<GovernmentDto> myGovernments=new ArrayList<GovernmentDto>();
 		newGovernment.setId(0);
 		newGovernment.setName(myNewGov.getName());
 		try {
-			savedGovernment=govService.addGov(countryName,newGovernment);
+			savedGovernment=govService.addGov(newGovernment);
 			myGovernments.add(new GovernmentDto(savedGovernment));
 			return new ResponseEntity (new GovernmentRequest(" Gov with id : "+ savedGovernment.getId() +" added Successfully",myGovernments), HttpStatus.OK);
 		}catch (Exception e) {

@@ -19,7 +19,11 @@ import { EventImpl } from '@fullcalendar/core/internal';
     imports: [ButtonModule,TableModule, SelectButtonModule, CommonModule, ToolbarTemplateDemo, SidebarComponent,DialogBasicDemo]
 })
 export class MyeventsComponent {
+  eventsBackend!:EventModel[]
 events!:EventModel[];
+myEvents:any
+ namee:string=""
+
 @ViewChild('editEvent') editEvent!:DialogBasicDemo;
 
 constructor(private eventService:EventService)
@@ -27,12 +31,29 @@ constructor(private eventService:EventService)
 
 }
 ngOnInit() {
-  this.events=this.eventService.getEvents();
-}
+
+  this.eventService.eventsChanged.subscribe((events: EventModel[]) => {
+    this.events = events;
+    console.log("*********************"+events[0].meetingRoomId)
+    // this.getMeetingRoomNameById(this.events[0].meetingRoomId)
+
+});
+  this.eventService.getEventsByEmpId(Number(localStorage.getItem("employeeId")));
+  }
+
+
+  // getMeetingRoomNameById(id:number):string{
+  //    this.eventService.getMeetingRoomsById(id).subscribe(
+  //     response=>{
+  //       console.log("seko "+response)
+  //       this.namee= response
+  //     }
+  //   )
+  //   return this.namee
+  // }
 
 onEdit(eventModel:EventModel)
 {
-  console.log("helllooooo",);
   const index = this.events.findIndex(event => Number(event.id) === Number(eventModel.id));
         if (index !== -1)
           {

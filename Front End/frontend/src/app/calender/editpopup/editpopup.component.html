@@ -14,11 +14,31 @@
                   
             </div>
             <div data-mdb-input-init class="form-outline mb-4">
-                <label class="form-label" for="meetingEndTime">Meeting End   Time</label>
-                <input type="datetime-local" id="meetingEndTime" class="form-control form-control-lg"
+                <label class="form-label" for="meetingEndTime">Meeting End Time</label>
+                <input type="time" id="meetingEndTime" class="form-control form-control-lg"
                   name="meetingEndDate" ngModel  />
                   
             </div>
+            <div data-mdb-input-init class="form-outline mb-4">
+              <label class="form-label" for="meetingStatus">Meeting Status</label>
+              <input type="text" id="meetingStatus" class="form-control form-control-lg"  readonly
+                name="meetingStatus" ngModel  />
+                
+          </div>
+          <!---->
+          <div data-mdb-input-init class="form-outline mb-4">
+            <label class="form-label" for="meetingReserver">Meeting Reserver</label>
+            <input type="text" id="meetingReserver" class="form-control form-control-lg"  readonly
+              name="meetingReserver" ngModel  />
+              
+        </div>
+        <div data-mdb-input-init class="form-outline mb-4">
+          <label class="form-label" for="meetingRoom">Meeting Room</label>
+          <input type="text" id="meetingRoom" class="form-control form-control-lg"  readonly
+            name="meetingRoom" ngModel  />
+            
+      </div>
+          <!---->
             <div data-mdb-input-init class="form-outline mb-4">
                 <label class="form-label" for="meetingDescription">Meeting Description</label>
                 <textarea rows="6" type="text" id="meetingDescription" class="form-control form-control-lg"
