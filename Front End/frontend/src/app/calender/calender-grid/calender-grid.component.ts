@@ -13,6 +13,7 @@ import { EventModel } from '../../shared/eventModel';
 import { DialogBasicDemo } from '../editpopup/editpopup.component';
 import { Subscription } from 'rxjs';
 import { SidebarComponent } from '../../sidebar/sidebar.component';
+import { SharedServiceService } from '../../shared/shared-service.service';
 
 @Component({
   selector: 'app-calender-grid',
@@ -46,7 +47,7 @@ export class CalenderGridComponent implements AfterViewInit ,OnInit{
   }
 
 
- constructor(private eventService:EventService,public dialog: MatDialog,private overlayPanelBasicDemo: OverlayPanelBasicDemo){}
+ constructor(private sharedService:SharedServiceService,private eventService:EventService,public dialog: MatDialog,private overlayPanelBasicDemo: OverlayPanelBasicDemo){}
   ngOnInit(): void {
     this.eventsBackend=[];
     this.eventService.eventsChanged.subscribe(
@@ -69,30 +70,12 @@ export class CalenderGridComponent implements AfterViewInit ,OnInit{
         this.eventsFetched=true;
       }
     )
-    this.eventService.getEvents();
-    // this.events = this.eventService.getEvents();
-    // this.myEvents = this.events.map(event => ({
-    //   id: event.id,
-    //   title: event.title,
-    //   start: event.startDate,
-    //   end:event.endDate,
-    //   describtion: event.extendedProps.describtion
-    // }));
-    
-    // this.subscription=this.eventService.eventsChanged.subscribe(
-    //   (events:EventModel[])=>{
-    //     this.myEvents = this.events.map(event => ({
-    //       id: event.id,
-    //       title: event.title,
-    //       start: event.startDate,
-    //       end:event.endDate,
-    //       describtion: event.extendedProps.describtion
-    //     }));
-    //     this.calendarOptions.events = this.myEvents; 
-    //   }
-    // )
+    // this.eventService.getEvents();
+    this.eventService.getApprovedEvents();
 
-   
+    this.sharedService.ToggleButton(false)
+    // this.sharedService.showMyButton=! this.sharedService.showMyButton
+
   }
 
 

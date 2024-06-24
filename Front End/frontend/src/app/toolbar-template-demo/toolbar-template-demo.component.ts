@@ -27,11 +27,7 @@ export class ToolbarTemplateDemo {
   onSidebar(){
     this.sharedService.changeData(true)
   }
-  makeitseen()
-  {
-    this.seen=!this.seen;
-    console.log(this.seen)
-  }
+
   onAddEvent(){
     console.log("hello dear")
     this.addEvent.showDialog()
@@ -42,10 +38,7 @@ export class ToolbarTemplateDemo {
   {
     this.router.navigate(['/dashboard'],{relativeTo:this.route})
   }
-  toApprove(){
-   
-    this.router.navigate(['/approve'],{relativeTo:this.route})
-  }
+
   onSignout(){
     localStorage.removeItem('jwt');
     this.router.navigate(['/signin'],{relativeTo:this.route})

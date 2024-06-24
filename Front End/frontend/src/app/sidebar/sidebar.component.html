@@ -5,11 +5,14 @@
        
        
             <div class="flex align-items-center gap-2">
-                <p-avatar
+           
+                    <p-avatar
                     image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
                     shape="circle"
-                    size="xlarge"/>
-                <h2>mona</h2>
+                    size="xlarge"
+                    [ngStyle]="{ 'width': '150px', 'height': '150px' }"/>
+                    <h2 style="width: 100%; display: flex; justify-content: center; align-items: center; color: #ffffff;">{{empName}}</h2>
+            
             </div>
  
          
@@ -17,6 +20,25 @@
                 type="button"
                 (click)="goToEvents()"  
                 label="My Events"
+                class="p-button-text"
+                pButton
+                [style]="{'width': '100%',
+                    'margin': '10px 0',
+                    'box-sizing': 'border-box',
+                    'text-align': 'center',
+                    'display': 'flex',    
+                    'align-items': 'center',
+                    'justify-content': 'center',
+                    'background-color': 'transparent',
+                    'font-size':'18px',
+                    'font-weight': 'bold',
+                    }"
+                rounded="true"></button>
+                <button
+                type="button"
+                (click)="toApprove()"  
+                label="Approve Requests"
+                *ngIf="seen"
                 class="p-button-text"
                 pButton
                 [style]="{'width': '100%',

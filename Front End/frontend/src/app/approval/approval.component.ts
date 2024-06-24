@@ -32,6 +32,7 @@ export class ApprovalComponent implements OnInit {
         console.log("eeeeeeeeeeeeeeeeeeeeeeeee events: " + this.pendingEvents[0].employeeDto.firstName);
       } else {
         console.log("Pending events are empty or employeeDto is undefined");
+        this.pendingEvents=[]
       }
     })
 

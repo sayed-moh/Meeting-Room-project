@@ -33,12 +33,14 @@ import { AuthInterceptor } from './auth.interceptor';
 import { DropdownModule } from 'primeng/dropdown';
 import { AddeventComponent } from './calender/addevent/addevent.component';
 import { ApprovalComponent } from './approval/approval.component';
+import { FilterComponent } from './calender/filter/filter.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SignupComponent,
     CalenderGridComponent,
+    FilterComponent,
     
     
 

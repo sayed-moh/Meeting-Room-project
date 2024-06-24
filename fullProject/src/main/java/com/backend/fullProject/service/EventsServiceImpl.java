@@ -1,19 +1,16 @@
 package com.backend.fullProject.service;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.backend.fullProject.customExceptoins.EventOverlapException;
+import com.backend.fullProject.customExceptoins.EventWrongDate;
 import com.backend.fullProject.dao.EventsDao;
-import com.backend.fullProject.dto.EventsDto;
-import com.backend.fullProject.entity.Employee;
 import com.backend.fullProject.entity.Events;
-import com.backend.fullProject.entity.MeetingRoom;
 @Service
 public class EventsServiceImpl implements EventsService {
 	
@@ -43,6 +40,19 @@ public class EventsServiceImpl implements EventsService {
 		// TODO Auto-generated method stub
 		return eventsDao.findById(id).orElseThrow(()->new Exception());
 	}
+	  public boolean isOverlapping(LocalDate date, LocalTime startTime, LocalTime endTime,int meetingRoomId) {
+	        List<Events> eventsOnDate = eventsDao.findByDateAndMeetingRoomId(date,meetingRoomId);
+
+	        for (Events event : eventsOnDate) {
+	            if ((startTime.isBefore(event.getEndTime()) && endTime.isAfter(event.getStartTime()))|| ((startTime.equals(event.getStartTime()))||(endTime.equals(event.getEndTime())))
+	            		
+	            		) {
+	                return true; // Overlapping
+	            }
+	        }
+
+	        return false; // No overlap
+	    }
 
 	@Override
 	public Events addEvent( Events event) throws Exception {
@@ -55,14 +65,26 @@ public class EventsServiceImpl implements EventsService {
 //		
 //		event.setEmployee(myEmployee);
 //		event.setMeetingRoom(myMeetingRoom);
+		  if (isOverlapping(event.getDate(), event.getStartTime(), event.getEndTime(),event.getMeetingRoomId())) {
+	            throw new EventOverlapException("Event times overlap with an existing event.");
+	        }
+		if((event.getStartTime().isAfter(event.getEndTime()))){
+            throw new EventWrongDate("Please Enter Time of Event In a right way");
+
+		}
 		
 		return eventsDao.save(event);
 	}
 
 	@Override
 	public Events editEvent(Events updatedEvent) throws Exception {
-		// TODO Auto-generated method stub
-		return eventsDao.save(updatedEvent);
+		  if (isOverlapping(updatedEvent.getDate(), updatedEvent.getStartTime(), updatedEvent.getEndTime(),updatedEvent.getMeetingRoomId())) {
+	            throw new EventOverlapException("Event times overlap with an existing event.");
+	        }
+		if((updatedEvent.getStartTime().isAfter(updatedEvent.getEndTime()))){
+          throw new EventWrongDate("Please Enter Time of Event In a right way");
+
+		}		return eventsDao.save(updatedEvent);
 	}
 
 	@Override

@@ -31,6 +31,9 @@ interface LoginResponse{
     role:string;
     officeId:number
   }
+  officeName:string;
+  countryName:string;
+  govName:string;
 }
 
 

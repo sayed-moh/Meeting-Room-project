@@ -16,16 +16,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.backend.fullProject.customExceptoins.EventOverlapException;
+import com.backend.fullProject.customExceptoins.EventWrongDate;
 import com.backend.fullProject.dto.EventsDto;
 import com.backend.fullProject.dto.MRDto;
-import com.backend.fullProject.entity.Employee;
 import com.backend.fullProject.entity.Events;
 import com.backend.fullProject.model.EventsResponse;
 import com.backend.fullProject.service.EmployeeService;
 import com.backend.fullProject.service.EventsService;
 import com.backend.fullProject.service.MRService;
-
-import antlr.debug.Event;
 
 @RestController
 @RequestMapping(value="/api")
@@ -54,6 +53,36 @@ public class EventsController {
 				eventDto.setRoomDto(meetingRoomDto);
 				 
 				myEventsDto.add(eventDto);
+			}
+			return new ResponseEntity(new EventsResponse("all Events Retrived Successfully", myEventsDto),HttpStatus.OK);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(new EventsResponse("Something Went wrong", myEventsDto),HttpStatus.NOT_FOUND);
+
+		}
+	}
+	
+	
+	@GetMapping(value="/events/approved")
+	public ResponseEntity<?> getAprovedEvents(){
+		List<EventsDto> myEventsDto=new ArrayList<EventsDto>();
+		List<Events> myEvents=new ArrayList<Events>();
+		
+		
+		
+		try {
+			myEvents=eventsService.getAll();
+			for(int i=0;i<myEvents.size();i++) {
+				if(myEvents.get(i).getStatus().equals("approved")) {
+					MRDto meetingRoomDto=new MRDto(meetingRoomService.getById(myEvents.get(i).getMeetingRoomId()));
+					EventsDto eventDto=new EventsDto(myEvents.get(i));
+					eventDto.setRoomDto(meetingRoomDto);
+					 
+					myEventsDto.add(eventDto);
+				}else {
+					System.out.println("statussssss "+myEvents.get(i).getStatus());
+				}
+				
 			}
 			return new ResponseEntity(new EventsResponse("all Events Retrived Successfully", myEventsDto),HttpStatus.OK);
 		}catch (Exception e) {
@@ -107,6 +136,14 @@ public class EventsController {
 			myEventDto.setRoomDto(eventsDto.getRoomDto());
 			myEventsDto.add(myEventDto);
 			return new ResponseEntity(new EventsResponse("Event is added Successfully", myEventsDto),HttpStatus.OK);
+		}catch (EventOverlapException e) {
+			e.printStackTrace();
+			return new ResponseEntity(new EventsResponse("there is an event at this time", myEventsDto),HttpStatus.NOT_FOUND);
+
+		}catch (EventWrongDate e) {
+			e.printStackTrace();
+			return new ResponseEntity(new EventsResponse("Please Enter Time of Event In a right way", myEventsDto),HttpStatus.NOT_FOUND);
+
 		}catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity(new EventsResponse("Something Went wrong", myEventsDto),HttpStatus.NOT_FOUND);
@@ -127,12 +164,19 @@ public class EventsController {
 			myEvent.setStartTime(eventDTO.getStartTime());
 			myEvent.setStatus(eventDTO.getStatus());
 			myEvent.setName(eventDTO.getName());
-//			myEvent.setEmployee(employeeService.getById(eventDTO.getEmployeeId()));
 			myEvent.setEmployeeId(eventDTO.getEmployeeId());
 			myEvent.setMeetingRoomId(eventDTO.getMeetingRoomId());
 			updatedEvent=eventsService.editEvent(myEvent);
 			EventsList.add(new EventsDto(updatedEvent));
 			return new ResponseEntity(new EventsResponse("Event is updated Successfully", EventsList),HttpStatus.OK);
+		}catch (EventOverlapException e) {
+			e.printStackTrace();
+			return new ResponseEntity(new EventsResponse("there is an event at this time in this meeting Room", EventsList),HttpStatus.NOT_FOUND);
+
+		}catch (EventWrongDate e) {
+			e.printStackTrace();
+			return new ResponseEntity(new EventsResponse("Please Enter Time of Event In a right way", EventsList),HttpStatus.NOT_FOUND);
+
 		}catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity(new EventsResponse("Something Went wrong", EventsList),HttpStatus.NOT_FOUND);

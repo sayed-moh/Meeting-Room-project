@@ -10,6 +10,7 @@ import { SidebarComponent } from "../sidebar/sidebar.component";
 import { ButtonModule } from 'primeng/button';
 import { DialogBasicDemo } from '../calender/editpopup/editpopup.component';
 import { EventImpl } from '@fullcalendar/core/internal';
+import { SharedServiceService } from '../shared/shared-service.service';
 
 @Component({
     selector: 'app-myevents',
@@ -26,7 +27,7 @@ myEvents:any
 
 @ViewChild('editEvent') editEvent!:DialogBasicDemo;
 
-constructor(private eventService:EventService)
+constructor(private eventService:EventService,private sharedServie:SharedServiceService)
 {
 
 }
@@ -39,35 +40,20 @@ ngOnInit() {
 
 });
   this.eventService.getEventsByEmpId(Number(localStorage.getItem("employeeId")));
+  this.sharedServie.ToggleButton(true);
+  // this.sharedServie.showMyButton=!this.sharedServie.showMyButton
   }
 
-
-  // getMeetingRoomNameById(id:number):string{
-  //    this.eventService.getMeetingRoomsById(id).subscribe(
-  //     response=>{
-  //       console.log("seko "+response)
-  //       this.namee= response
-  //     }
-  //   )
-  //   return this.namee
-  // }
 
 onEdit(eventModel:EventModel)
 {
   const index = this.events.findIndex(event => Number(event.id) === Number(eventModel.id));
+  console.log("fuck + "+index)
         if (index !== -1)
           {
-            /*this.editEvent.eventDetails.id=eventModel.id;
-            this.editEvent.eventDetails.title=eventModel.title;
-            this.editEvent.eventDetails.describtion=eventModel.extendedProps.describtion;
-            this.editEvent.eventDetails.startDate=eventModel.startDate;
-            this.editEvent.eventDetails.endDate=eventModel.endDate;
-            this.editEvent.eventDetails.state=eventModel.extendedProps.state;*/
-            
-            console.log("eventModel",eventModel);
+     
             this.editEvent.eventDetails = (eventModel);
-            
-            console.log("event details",this.editEvent.eventDetails )
+            console.log("event details",this.editEvent.eventDetails.description )
             this.editEvent.showDialog(String(index))
           }
 }

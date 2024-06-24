@@ -36,6 +36,11 @@ export class SigninComponent implements OnInit{
       localStorage.setItem('employeeId',(response.myEmployee.id).toString())
       localStorage.setItem('empOfficeId',(response.myEmployee.officeId).toString())
       localStorage.setItem("empName",response.myEmployee.firstName+" "+response.myEmployee.lastName)
+      localStorage.setItem("role",response.myEmployee.role)
+      localStorage.setItem("officeName",response.officeName)
+      localStorage.setItem("countryName",response.countryName)
+      localStorage.setItem("govName",response.govName)
+
       console.log("jwt : "+localStorage.getItem('jwt'))
       this.router.navigate(["/dashboard"],{relativeTo:this.route})
 

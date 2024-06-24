@@ -1,0 +1,29 @@
+<!--
+    <form #form="ngForm" (ngSubmit)="onSaveEdit(form)" style="width: 500px;" >
+    
+     
+
+    <div data-mdb-input-init class="form-outline mb-4">
+      <label class="form-label" for="meetingRoom">Meeting Room</label>
+      <div class="card flex justify-content-center">
+        <p-dropdown 
+        [options]="meetingRooms" 
+        name="meetingRoom" 
+        [(ngModel)]="meetingRoomName"
+        optionLabel="floor" 
+        [showClear]="true"
+        placeholder="{{ meetingRoomName }}" />
+    </div>
+  
+
+        <br>
+        <div class="button-container">
+            <button pButton type="button"    *ngIf="showMyButton"
+            label="Cancel" class="button-space" (click)="visible=false"></button>
+            <button pButton type="submit"  *ngIf="showMyButton" label="Save" ></button>
+          </div>
+
+    </form>
+
+
+-->

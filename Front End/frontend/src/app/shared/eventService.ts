@@ -35,6 +35,21 @@ export class EventService{
                 }
             );
     }
+    getApprovedEvents():void{
+        this.http.get<{message:string,data:any[]}>(`http://localhost:8030/api/events/approved`).pipe(
+           
+           map(response=>response.data)
+           ).subscribe(
+               events => {
+                   this.events = events;
+                   this.eventsChanged.next(this.events.slice());
+                   console.log(events)
+               },
+               error => {
+                   console.error('Error fetching events:', error);
+               }
+           );
+   }
     getMeetingRoomsByOfficeId(officeId:number):Observable<any[]>{
         return this.http.get<{message:string,data:any[]}>(`http://localhost:8030/api/meeting-room/officeId/${officeId}`).pipe(
             map(response=>response.data)
@@ -69,8 +84,6 @@ export class EventService{
         .subscribe(
             events => {
                 this.events = events;
-        //   this.eventsChanged.next([...this.events]);
-
                 this.eventsChanged.next(this.events.slice());
             },
             error => {
@@ -92,19 +105,28 @@ export class EventService{
     getEventData(meetingRoomId:number,employeeId:number):Observable<{meetingRoomName:string,employeeName:string}>{
         return this.http.get<{meetingRoomName:string,employeeName:string}>(`http://localhost:8030/api/meeting-room/getname/${meetingRoomId}/${employeeId}`)
     }
-    addEvent(event:EventModel):Observable<any[]>{
+    addEvent(event:EventModel):Observable<{message:string,data:any[]}>{
         return this.http.post<{message:string,data:any[]}>(`http://localhost:8030/api/events`,event).pipe(
-            map(response =>response.data )
+            map(response =>response )
         );
     }
-    updateEvent(id:number,event:EventModel){
-        this.events[id]=event
-        this.eventsChanged.next(this.events.slice())
+    updateEvent(event:EventModel):Observable<{message:string,data:any[]}>{
+
+        return this.http.put<{message:string,data:any[]}>(`http://localhost:8030/api/events`,event).pipe(
+            map(response =>response )
+        )
+
     }
-    deleteEvent(id:number)
+    deleteEvent(id:number):void
     {
         const index = this.events.findIndex(event => Number(event.id) === id);
         if (index !== -1) {
+        this.http.delete<{message:string}>(`http://localhost:8030/api/events/${id}`).pipe(
+            map(response =>response.message )
+        ).subscribe(message=>{
+            console.log(message)
+        })
+
         this.events.splice(index,1);
         this.eventsChanged.next(this.events.slice());
         }

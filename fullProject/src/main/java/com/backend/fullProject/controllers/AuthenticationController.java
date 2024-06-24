@@ -3,9 +3,6 @@ package com.backend.fullProject.controllers;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.stream.Collectors;
-
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,11 +19,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.backend.fullProject.dto.EmployeeDto;
 import com.backend.fullProject.entity.Employee;
+import com.backend.fullProject.entity.Government;
+import com.backend.fullProject.entity.Office;
 import com.backend.fullProject.jwtconfig.JwtUtil;
 import com.backend.fullProject.model.AuthenticationRequest;
 import com.backend.fullProject.model.AuthenticationResponse;
 import com.backend.fullProject.service.BlackListedService;
+import com.backend.fullProject.service.CountryService;
 import com.backend.fullProject.service.EmployeeService;
+import com.backend.fullProject.service.GovernmentService;
+import com.backend.fullProject.service.OfficeService;
 import com.backend.fullProject.service.UserDetailsService;
 
 @RestController
@@ -41,9 +43,20 @@ public class AuthenticationController {
 
 	@Autowired
 	private UserDetailsService userDetailsService;
+	
+	@Autowired
+	private OfficeService officeService ;
+	
+	@Autowired
+	private GovernmentService govService ;
+	
+	@Autowired
+	private CountryService countryService ;
 
 	@Autowired
 	private EmployeeService employeeService;
+	
+
 
 	@Autowired
 	private JwtUtil jwtUtil;
@@ -51,6 +64,14 @@ public class AuthenticationController {
 	@PostMapping("/authenticate")
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest)
 			throws Exception {
+		int officeId;
+		Office myOffice;
+		String officeName="";
+		int govId;
+		Government myGov;
+		String govName="";
+		int countryId;
+		String countryName="";
 		try {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(),
 					authenticationRequest.getPassword()));
@@ -66,7 +87,14 @@ public class AuthenticationController {
 		Employee myEmployee = employeeService.findByEmail(userDetails.getUsername());
 		myEmployee.setPassword("****");
 		EmployeeDto myEmployeeDto=new EmployeeDto(myEmployee);
-		return new ResponseEntity(new AuthenticationResponse("success", jwt, myEmployeeDto), HttpStatus.OK);
+		officeId=myEmployee.getOfficeId();
+		myOffice=officeService.getById(officeId);
+		officeName=myOffice.getName();
+		
+		myGov=govService.getById(myOffice.getGovernmentId());
+		govName=myGov.getName();
+		countryName=countryService.getById(myGov.getCountryId()).getName();
+		return new ResponseEntity(new AuthenticationResponse("success", jwt, myEmployeeDto,officeName,countryName,govName), HttpStatus.OK);
 
 
 	}
