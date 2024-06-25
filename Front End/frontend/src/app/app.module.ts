@@ -40,7 +40,6 @@ import { FilterComponent } from './calender/filter/filter.component';
     AppComponent,
     SignupComponent,
     CalenderGridComponent,
-    FilterComponent,
     
     
 
@@ -68,6 +67,8 @@ import { FilterComponent } from './calender/filter/filter.component';
     SigninComponent,
     DropdownModule,    
     ApprovalComponent,
+    FilterComponent,
+
 
   ],
   providers: [EventService,OverlayPanelBasicDemo,

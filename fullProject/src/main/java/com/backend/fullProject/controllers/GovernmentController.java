@@ -66,6 +66,26 @@ public class GovernmentController {
 			return new ResponseEntity (new GovernmentRequest("There is no Gov with this is id : "+id), HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	@GetMapping(value="government/country/{countryId}")
+	public ResponseEntity<?> getByCountryId(@PathVariable int countryId){
+		List<Government> myGovernments=new ArrayList<Government>();
+		List<GovernmentDto> myGovernmentDto=new ArrayList<GovernmentDto>();
+		try {
+			
+			myGovernments=govService.findByCountryId(countryId);
+			for(int i=0;i<myGovernments.size();i++) {
+				myGovernmentDto.add(new GovernmentDto(myGovernments.get(i)));
+			}
+			return new ResponseEntity (new GovernmentRequest("All Governments retrived Successfully",myGovernmentDto), HttpStatus.OK);
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity (new GovernmentRequest("There is no Employees in the DataBase"), HttpStatus.NOT_FOUND);
+
+		}
+	}
+	
 //	
 	@PostMapping(value="/government")
 	public ResponseEntity<?> addGov(@RequestBody GovernmentDto myNewGov){

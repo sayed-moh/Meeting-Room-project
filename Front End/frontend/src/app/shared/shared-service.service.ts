@@ -1,10 +1,20 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
+import { HttpClient } from "@angular/common/http";
+
+
+interface Country {
+  name: string;
+  id: number;
+}
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class SharedServiceService {
+
+  countries!:Country[]
 
    dataSource = new BehaviorSubject<boolean>(false);
    buttonSource=new BehaviorSubject<boolean>(false);
@@ -19,5 +29,26 @@ export class SharedServiceService {
     this.buttonSource.next(value)
   }
  
-  constructor() { }
+  constructor(private http:HttpClient){}
+
+  getAllCountries():Observable<any[]>{
+    return this.http.get<{message:string,data:any[]}>(`http://localhost:8030/api/country`).pipe(
+      map(response=>response.data)
+    )
+  }
+  getAllGovernmentsByCountryId(countryId:number):Observable<any[]>{
+    return this.http.get<{message:string,data:any[]}>(`http://localhost:8030/api/government/country/${countryId}`).pipe(
+      map(response=>response.data)
+    )
+  }
+  getMeetingRoomsByOfficeId(officeId:number):Observable<any[]>{
+    return this.http.get<{message:string,data:any[]}>(`http://localhost:8030/api/meeting-room/officeId/${officeId}`).pipe(
+        map(response=>response.data)
+    )
+}
+  getAllOfficesByGovId(govId:number):Observable<any[]>{
+    return this.http.get<{message:string,data:any[]}>(`http://localhost:8030/api/office/government/${govId}`).pipe(
+      map(response=>response.data)
+    )
+  }
 }

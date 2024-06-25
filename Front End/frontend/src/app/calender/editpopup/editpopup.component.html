@@ -58,22 +58,25 @@
             <input type="text" id="reserverOffice" class="form-control form-control-lg"  readonly
               name="reserverOffice" ngModel  />
               
-          </div>
-
-
-
-             
+          </div>   
         </div>
-        <div data-mdb-input-init class="form-outline mb-4">
+
+        <div *ngIf="!showMyButton" data-mdb-input-init class="form-outline mb-4">
+          <label class="form-label" for="meetingRoom">Meeting Room</label>
+          <input type="text" id="meetingRoom" class="form-control form-control-lg"  readonly
+            name="meetingRoom" ngModel  />
+            
+        </div>   
+        <div *ngIf="showMyButton" data-mdb-input-init class="form-outline mb-4">
           <label class="form-label" for="meetingRoom">Meeting Room</label>
           <div class="card flex justify-content-center">
             <p-dropdown 
             [disabled]="!showMyButton"            [options]="meetingRooms" 
             name="meetingRoom" 
-            [(ngModel)]="meetingRoomNameee"
+            [(ngModel)]="meetingRoomName"
             optionLabel="floor" 
             [showClear]="true"
-            placeholder="{{ meetingRoomNameee }}" />
+            placeholder="{{ meetingRoomName }}" />
         </div>
       
 

@@ -67,6 +67,23 @@ public class OfficeController {
 
 		}
 	}
+	@GetMapping(value="/office/government/{govId}")
+	public ResponseEntity getByGovId(@PathVariable int govId) {
+		List<Office> offices = new ArrayList<Office>();
+		List<OfficeDto> myOffices = new ArrayList<OfficeDto>();
+		try {
+			offices = officeService.getByGovId(govId);
+			for (int i = 0; i < offices.size(); i++) {
+				myOffices.add(new OfficeDto(offices.get(i)));
+			}
+			return new ResponseEntity(new OfficeResponse("all offices retrieved successfully ", myOffices),
+					HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(new OfficeResponse("something went worng ", myOffices), HttpStatus.NOT_FOUND);
+
+		}
+	}
 	
 	@PostMapping(value="/office")
 	public ResponseEntity<?> addOffice(@RequestBody OfficeDto addedOffice){

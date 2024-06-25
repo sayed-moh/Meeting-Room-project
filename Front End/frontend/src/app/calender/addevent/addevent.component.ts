@@ -10,6 +10,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { Message } from 'primeng/api';
 import { MessagesModule } from 'primeng/messages';
 import { CommonModule } from '@angular/common';
+import { SharedServiceService } from '../../shared/shared-service.service';
 
 interface meetingRoom {
   name: string;
@@ -28,12 +29,14 @@ export class AddeventComponent implements OnInit{
   visible: boolean = false;
   meetingRooms: meetingRoom[] =[];
   newEvent!:EventModel;
+  showMyButton!:boolean;
 
   message: string = '';
   messages!: Message[] ;
-  constructor(private eventService:EventService){}
+  constructor(private eventService:EventService,private sharedService:SharedServiceService){}
   ngOnInit(): void {
-    
+    this.sharedService.buttonSource.subscribe(value => this.showMyButton = value);
+
     this.eventService.getMeetingRoomsByOfficeId(Number(localStorage.getItem('empOfficeId'))).subscribe(response => {
       response.forEach(meetingRoom => {this.meetingRooms.push(meetingRoom)});
       console.log(this.meetingRooms);
@@ -90,7 +93,17 @@ export class AddeventComponent implements OnInit{
       response => {
         console.log('Event created:', response.message);
         this.eventService.events.push(response.data[0]);
-        this.eventService.eventsChanged.next(this.eventService.events.slice());
+        if(this.showMyButton){
+          this.eventService.eventsChanged.next(this.eventService.events.slice());
+
+          
+        }else{
+          if(response.data[0].status==='approved'){
+            this.eventService.eventsChanged.next(this.eventService.events.slice());
+
+          }
+        }
+     
         this.form.reset()
     
         this.visible=false

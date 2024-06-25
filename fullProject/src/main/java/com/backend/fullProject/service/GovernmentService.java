@@ -11,5 +11,5 @@ public interface GovernmentService {
 	public Government addGov(Government myGov) throws Exception;
 	public Government updateGov(Government myGov) throws Exception;
 	public Government findByGovName(String govName)throws Exception;
-
+	public List<Government> findByCountryId(int countryId)throws Exception;
 }

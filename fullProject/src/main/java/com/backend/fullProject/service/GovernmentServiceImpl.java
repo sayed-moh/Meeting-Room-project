@@ -47,4 +47,10 @@ public class GovernmentServiceImpl implements GovernmentService {
 		return govDao.findByName(govName);
 	}
 
+	@Override
+	public List<Government> findByCountryId(int countryId) throws Exception {
+		// TODO Auto-generated method stub
+		return govDao.findByCountryId(countryId);
+	}
+
 }

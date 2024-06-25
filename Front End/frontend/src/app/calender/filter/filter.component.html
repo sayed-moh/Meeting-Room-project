@@ -1,29 +1,49 @@
-<!--
-    <form #form="ngForm" (ngSubmit)="onSaveEdit(form)" style="width: 500px;" >
-    
-     
+<form #form="ngForm" (ngSubmit)="onSearch(form)" style="width: 500px;">
+  <div class="form-row" >
 
-    <div data-mdb-input-init class="form-outline mb-4">
-      <label class="form-label" for="meetingRoom">Meeting Room</label>
-      <div class="card flex justify-content-center">
-        <p-dropdown 
-        [options]="meetingRooms" 
-        name="meetingRoom" 
-        [(ngModel)]="meetingRoomName"
-        optionLabel="floor" 
-        [showClear]="true"
-        placeholder="{{ meetingRoomName }}" />
+    <p-dropdown 
+      [options]="countries" 
+      [(ngModel)]="selectedCountry" 
+      optionLabel="name" 
+      name="selectedCountry"
+      placeholder="Select an Country" 
+      class="dropdown" 
+      (onChange)="onCountryChange($event)"/>
+
+    <p-dropdown 
+      [options]="governments" 
+      [(ngModel)]="selectedGovernment" 
+      optionLabel="name" 
+      name="selectedGovernment"
+      *ngIf="showGovernmentDropdown"
+      placeholder="Select a Government" 
+      class="dropdown" 
+      (onChange)="onGovChange($event)"/>
+
+      <p-dropdown 
+      [options]="offices" 
+      [(ngModel)]="selectedOffice" 
+      optionLabel="name" 
+      name="selectedOffice"
+      *ngIf="showOfficeDropdown"
+      placeholder="Select an Office" 
+      class="dropdown" 
+      (onChange)="onOfficeChange($event)"/>
+
+    <p-dropdown 
+      [options]="meetingRooms" 
+      [(ngModel)]="selectedMeetingRoom" 
+      optionLabel="floor" 
+      name="selectedMeetingRoom"
+      *ngIf="showMeetingRoomDropdown"
+
+      placeholder="Select a Meeting Room" 
+      class="dropdown" />
+
+    <div class="button-container">
+      <button pButton type="button" label="reset" class="button-space" (click)="onReset()"></button>
+      <button pButton type="submit" label="Search"  ></button>
     </div>
-  
+  </div>
+</form>
 
-        <br>
-        <div class="button-container">
-            <button pButton type="button"    *ngIf="showMyButton"
-            label="Cancel" class="button-space" (click)="visible=false"></button>
-            <button pButton type="submit"  *ngIf="showMyButton" label="Save" ></button>
-          </div>
-
-    </form>
-
-
--->

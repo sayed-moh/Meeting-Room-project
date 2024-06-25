@@ -19,12 +19,17 @@ import com.backend.fullProject.dto.EventsDto;
 import com.backend.fullProject.dto.MRDto;
 import com.backend.fullProject.entity.Employee;
 import com.backend.fullProject.entity.Events;
+import com.backend.fullProject.entity.Government;
 import com.backend.fullProject.entity.MeetingRoom;
+import com.backend.fullProject.entity.Office;
 import com.backend.fullProject.model.EventsResponse;
 import com.backend.fullProject.model.MRResponse;
+import com.backend.fullProject.service.CountryService;
 import com.backend.fullProject.service.EmployeeService;
 import com.backend.fullProject.service.EventsService;
+import com.backend.fullProject.service.GovernmentService;
 import com.backend.fullProject.service.MRService;
+import com.backend.fullProject.service.OfficeService;
 
 @RestController
 @RequestMapping("/api")
@@ -39,6 +44,16 @@ public class CustomControllers {
 	
 	@Autowired
 	private EventsService eventsService;
+	
+	@Autowired
+	private OfficeService officeService ;
+	
+	@Autowired
+	private GovernmentService govService ;
+	
+	@Autowired
+	private CountryService countryService ;
+
 
 	@GetMapping(value = "/meeting-room/getname/{meetingRoomId}/{employeeId}")
 	public ResponseEntity<?> getMeetingRoomNameById(@PathVariable("meetingRoomId") int meetingRoomId,
@@ -50,13 +65,34 @@ public class CustomControllers {
 
 		String mrName = "";
 		String employeeName = "";
+		String officeName = "";	
+		String govName = "";	
+		String countryName = "";
+		int officeId;
+		Office myOffice;
+		Government myGov;
+		
 		try {
 			meetingRoom = mrService.getById(meetingRoomId);
 			myEmployee = employeeService.getById(employeeId);
 			mrName = meetingRoom.getFloor();
+			
+			officeId=myEmployee.getOfficeId();
+			myOffice=officeService.getById(officeId);
+			officeName=myOffice.getName();
+			
+			myGov=govService.getById(myOffice.getGovernmentId());
+			govName=myGov.getName();
+			countryName=countryService.getById(myGov.getCountryId()).getName();
+			
+			
 			employeeName = myEmployee.getFirstName() + " " + myEmployee.getLastName();
 			response.put("meetingRoomName", mrName);
 			response.put("employeeName", employeeName);
+			response.put("officeName", officeName);
+			response.put("govName", govName);
+			response.put("countryName", countryName);
+
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -115,5 +151,9 @@ public class CustomControllers {
 
 		}
 	}
+
+
+	
+
 
 }

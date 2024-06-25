@@ -14,4 +14,10 @@ public interface EventsService {
 	public Events editEvent (Events updatedEvent)throws Exception;
 	public void deleteEvent(int id)throws Exception;
 	public List<Events> getPendingEvents(int empId) throws Exception;
+	
+	public List<Events> getAllEventsByCountryId(int countryId)throws Exception;
+	public List<Events> getAllEventsByGovId(int govId)throws Exception;
+	public List<Events> getAllEventsByOfficeId(int officeId)throws Exception;
+	public List<Events> getAllEventsByMeetingRoomId(int meetingRoomId)throws Exception;
+
 }

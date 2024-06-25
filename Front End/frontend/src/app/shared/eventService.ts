@@ -61,6 +61,71 @@ export class EventService{
             map(response=>response.data[0].floor)
         )
     }
+    getEventsByGovernmentId(GovernmentId:number):void{
+    
+        this.http.get<{message:string,data:any[]}>(`http://localhost:8030/api/events/government/${GovernmentId}`).pipe(
+            map(response=>response.data)
+        ) .subscribe(
+            events => {
+                this.events = events;
+                this.eventsChanged.next(this.events.slice());
+                console.log(events)
+            },
+            error => {
+                console.error('Error fetching events:', error);
+            }
+        );
+     
+    }
+    getEventsByOfficeId(officeId:number):void{
+    
+        this.http.get<{message:string,data:any[]}>(`http://localhost:8030/api/events/office/${officeId}`).pipe(
+            map(response=>response.data)
+        ) .subscribe(
+            events => {
+                this.events = events;
+                this.eventsChanged.next(this.events.slice());
+                console.log(events)
+            },
+            error => {
+                console.error('Error fetching events:', error);
+            }
+        );
+     
+    }
+
+    getEventsByCountry(countryId:number):void{
+    
+        this.http.get<{message:string,data:any[]}>(`http://localhost:8030/api/events/country/${countryId}`).pipe(
+            map(response=>response.data)
+        ) .subscribe(
+            events => {
+                this.events = events;
+                this.eventsChanged.next(this.events.slice());
+                console.log(events)
+            },
+            error => {
+                console.error('Error fetching events:', error);
+            }
+        );
+     
+    }
+    getEventsByMeetingRoomId(meetingRoomId:number):void{
+    
+        this.http.get<{message:string,data:any[]}>(`http://localhost:8030/api/events/meetingroom/${meetingRoomId}`).pipe(
+            map(response=>response.data)
+        ) .subscribe(
+            events => {
+                this.events = events;
+                this.eventsChanged.next(this.events.slice());
+                console.log(events)
+            },
+            error => {
+                console.error('Error fetching events:', error);
+            }
+        );
+     
+    }
    
     getEventsByEmpId(empId:number):void{
          this.http.get<{message:string,data:any[]}>(`http://localhost:8030/api/events/empId/${empId}`).pipe(
@@ -102,8 +167,20 @@ export class EventService{
     }
 
 
-    getEventData(meetingRoomId:number,employeeId:number):Observable<{meetingRoomName:string,employeeName:string}>{
-        return this.http.get<{meetingRoomName:string,employeeName:string}>(`http://localhost:8030/api/meeting-room/getname/${meetingRoomId}/${employeeId}`)
+    getEventData(meetingRoomId:number,employeeId:number):Observable<{meetingRoomName:string,
+        employeeName:string,
+        officeName:string,
+        govName:string,
+        countryName:string
+    }>{
+        return this.http.get<{meetingRoomName:string,
+            employeeName:string,
+            officeName:string,
+            govName:string,
+            countryName:string
+        }>
+        
+        (`http://localhost:8030/api/meeting-room/getname/${meetingRoomId}/${employeeId}`)
     }
     addEvent(event:EventModel):Observable<{message:string,data:any[]}>{
         return this.http.post<{message:string,data:any[]}>(`http://localhost:8030/api/events`,event).pipe(

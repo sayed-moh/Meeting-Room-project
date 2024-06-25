@@ -62,6 +62,123 @@ public class EventsController {
 		}
 	}
 	
+	@GetMapping(value="/events/country/{countryId}")
+	public ResponseEntity<?> getEventsByCountryId(@PathVariable int countryId){
+		List<EventsDto> myEventsDto=new ArrayList<EventsDto>();
+		List<Events> myEvents=new ArrayList<Events>();
+		
+		
+		
+		try {
+			myEvents=eventsService.getAllEventsByCountryId(countryId);
+			for(int i=0;i<myEvents.size();i++) {
+				if(myEvents.get(i).getStatus().equals("approved")) {
+					MRDto meetingRoomDto=new MRDto(meetingRoomService.getById(myEvents.get(i).getMeetingRoomId()));
+					EventsDto eventDto=new EventsDto(myEvents.get(i));
+					eventDto.setRoomDto(meetingRoomDto);
+					 
+					myEventsDto.add(eventDto);
+				}else {
+					System.out.println("statussssss "+myEvents.get(i).getStatus());
+				}
+				
+			}
+			return new ResponseEntity(new EventsResponse("all Events Retrived Successfully", myEventsDto),HttpStatus.OK);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(new EventsResponse("Something Went wrong", myEventsDto),HttpStatus.NOT_FOUND);
+
+		}
+	}
+	
+	
+	@GetMapping(value="/events/government/{govId}")
+	public ResponseEntity<?> getEventsByGovId(@PathVariable int govId){
+		List<EventsDto> myEventsDto=new ArrayList<EventsDto>();
+		List<Events> myEvents=new ArrayList<Events>();
+		
+		
+		
+		try {
+			myEvents=eventsService.getAllEventsByGovId(govId);
+			for(int i=0;i<myEvents.size();i++) {
+				if(myEvents.get(i).getStatus().equals("approved")) {
+					MRDto meetingRoomDto=new MRDto(meetingRoomService.getById(myEvents.get(i).getMeetingRoomId()));
+					EventsDto eventDto=new EventsDto(myEvents.get(i));
+					eventDto.setRoomDto(meetingRoomDto);
+					 
+					myEventsDto.add(eventDto);
+				}else {
+					System.out.println("statussssss "+myEvents.get(i).getStatus());
+				}
+				
+			}
+			return new ResponseEntity(new EventsResponse("all Events Retrived Successfully", myEventsDto),HttpStatus.OK);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(new EventsResponse("Something Went wrong", myEventsDto),HttpStatus.NOT_FOUND);
+
+		}
+	}
+	
+	@GetMapping(value="/events/meetingroom/{meetingRoomId}")
+	public ResponseEntity<?> getEventsByMeetingRoomId(@PathVariable int meetingRoomId){
+		List<EventsDto> myEventsDto=new ArrayList<EventsDto>();
+		List<Events> myEvents=new ArrayList<Events>();
+		
+		
+		
+		try {
+			myEvents=eventsService.getAllEventsByMeetingRoomId(meetingRoomId);
+			for(int i=0;i<myEvents.size();i++) {
+				if(myEvents.get(i).getStatus().equals("approved")) {
+					MRDto meetingRoomDto=new MRDto(meetingRoomService.getById(myEvents.get(i).getMeetingRoomId()));
+					EventsDto eventDto=new EventsDto(myEvents.get(i));
+					eventDto.setRoomDto(meetingRoomDto);
+					 
+					myEventsDto.add(eventDto);
+				}else {
+					System.out.println("statussssss "+myEvents.get(i).getStatus());
+				}
+				
+			}
+			return new ResponseEntity(new EventsResponse("all Events Retrived Successfully", myEventsDto),HttpStatus.OK);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(new EventsResponse("Something Went wrong", myEventsDto),HttpStatus.NOT_FOUND);
+
+		}
+	}
+	
+	
+	@GetMapping(value="/events/office/{officeId}")
+	public ResponseEntity<?> getEventsByOfficeId(@PathVariable int officeId){
+		List<EventsDto> myEventsDto=new ArrayList<EventsDto>();
+		List<Events> myEvents=new ArrayList<Events>();
+		
+		
+		
+		try {
+			myEvents=eventsService.getAllEventsByOfficeId(officeId);
+			for(int i=0;i<myEvents.size();i++) {
+				if(myEvents.get(i).getStatus().equals("approved")) {
+					MRDto meetingRoomDto=new MRDto(meetingRoomService.getById(myEvents.get(i).getMeetingRoomId()));
+					EventsDto eventDto=new EventsDto(myEvents.get(i));
+					eventDto.setRoomDto(meetingRoomDto);
+					 
+					myEventsDto.add(eventDto);
+				}else {
+					System.out.println("statussssss "+myEvents.get(i).getStatus());
+				}
+				
+			}
+			return new ResponseEntity(new EventsResponse("all Events Retrived Successfully", myEventsDto),HttpStatus.OK);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(new EventsResponse("Something Went wrong", myEventsDto),HttpStatus.NOT_FOUND);
+
+		}
+	}
 	
 	@GetMapping(value="/events/approved")
 	public ResponseEntity<?> getAprovedEvents(){
@@ -167,7 +284,11 @@ public class EventsController {
 			myEvent.setEmployeeId(eventDTO.getEmployeeId());
 			myEvent.setMeetingRoomId(eventDTO.getMeetingRoomId());
 			updatedEvent=eventsService.editEvent(myEvent);
-			EventsList.add(new EventsDto(updatedEvent));
+			EventsDto updatedEventDto=new EventsDto(updatedEvent);
+			updatedEventDto.setRoomDto(new MRDto(meetingRoomService.getById(updatedEvent.getMeetingRoomId())));
+			
+			EventsList.add(updatedEventDto);
+			
 			return new ResponseEntity(new EventsResponse("Event is updated Successfully", EventsList),HttpStatus.OK);
 		}catch (EventOverlapException e) {
 			e.printStackTrace();
@@ -183,6 +304,7 @@ public class EventsController {
 
 		}
 	}
+	
 	
 	
 	@DeleteMapping(value="/events/{eventId}")

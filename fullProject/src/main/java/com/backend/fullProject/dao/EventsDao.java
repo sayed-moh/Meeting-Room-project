@@ -16,5 +16,27 @@ public interface EventsDao extends JpaRepository<Events, Integer> {
 	 @Query("SELECT e FROM Events e JOIN MeetingRoom mr ON e.meetingRoomId = mr.id JOIN mr.employees emp WHERE emp.id = :employeeId AND e.status = 'pending'")
 	    List<Events> findPendingEventsByEmployeeId(@Param("employeeId") int employeeId);
 	    List<Events> findByDateAndMeetingRoomId(LocalDate date,int meetingRoomId);
-
+	    
+	    @Query("SELECT e FROM Events e " +
+	            "JOIN MeetingRoom mr ON e.meetingRoomId = mr.id " +
+	            "JOIN Office o ON mr.officeId = o.id " +
+	            "JOIN Government g ON o.governmentId = g.id " +
+	            "WHERE g.countryId = :countryId")
+	     List<Events> findAllByCountryId(@Param("countryId") int countryId);
+	    
+	    @Query("SELECT e FROM Events e " +
+	            "JOIN MeetingRoom mr ON e.meetingRoomId = mr.id " +
+	            "JOIN Office o ON mr.officeId = o.id " +
+	            "WHERE o.governmentId = :govId"
+	            )
+	     List<Events> findAllByGovId(@Param("govId") int govId);
+	    
+	    @Query("SELECT e FROM Events e " +
+	            "JOIN MeetingRoom mr ON e.meetingRoomId = mr.id " +
+	            
+	            "WHERE mr.officeId = :officeId"
+	            )
+	     List<Events> findAllByOfficeId(@Param("officeId") int officeId);
+	    
+	    List<Events> findByMeetingRoomId(int meetingRoomId);
 }

@@ -41,9 +41,10 @@ export class DialogBasicDemo implements OnInit{
     startDate:string ='';
     endDate:string='';
     date!: String ;
+     updatedEvent!:EventModel
     meetingRoooomId:any
     employeeIddd:any
-    meetingRoomNameee!:string;
+    meetingRoomName!:string;
     showMyButton=false;
     meetingReserver!:string
     holdingEvent:EventModel | undefined
@@ -93,14 +94,14 @@ export class DialogBasicDemo implements OnInit{
    
             this.meetingRoooomId=this.eventDetails.meetingRoomId || this.eventDetails.extendedProps.meetingRoomId
             this.employeeIddd=this.eventDetails.employeeId || this.eventDetails.extendedProps.employeeId
-            
+            console.log("wwwwwwwwwwwwwwwwwwwwwwwwwwww "+this.employeeIddd)
             this.eventService.getEventData( this.meetingRoooomId,
               this.employeeIddd
             ).subscribe(
               (response)=> {
-                this.meetingRoomNameee=response.meetingRoomName
+                this.meetingRoomName=response.meetingRoomName
                 this.meetingReserver=response.employeeName
-                console.log("yarab "+this.meetingRoomNameee)
+                console.log("yarab "+this.meetingRoomName)
 
                 if(this.showMyButton){
                   this.form.setValue({
@@ -113,7 +114,7 @@ export class DialogBasicDemo implements OnInit{
                     "reserverCountry" : localStorage.getItem("countryName"),
                     "reserverGov" :localStorage.getItem("govName"),
                     "reserverOffice": localStorage.getItem("officeName"),
-                    "meetingRoom":this.meetingRoomNameee
+                    "meetingRoom":this.meetingRoomName
                 })
                 }else{
                   this.form.setValue({
@@ -123,10 +124,10 @@ export class DialogBasicDemo implements OnInit{
                     "meetingEndDate":this.endDate,
                     "meetingStatus":this.status,
                     "meetingReserver":this.meetingReserver,
-                    "reserverCountry" : "",
-                    "reserverGov" :"",
-                    "reserverOffice": "",
-                    "meetingRoom":""
+                    "reserverCountry" : response.countryName,
+                    "reserverGov" :response.govName,
+                    "reserverOffice":response.officeName,
+                    "meetingRoom":response.meetingRoomName
                 })
                 }
               
@@ -142,28 +143,39 @@ export class DialogBasicDemo implements OnInit{
       const value=this.form.value
       const[date, startTime] = value['meetingStartDate'].split('T');
       console.log("sswwwwwwwwww "+this.meetingRoooomId)
-      const updatedEvent=new EventModel(Number(this.eventDetails.id),
+      if(localStorage.getItem("role")==="ROLE_SENIOR"){
+        this.updatedEvent=new EventModel(Number(this.eventDetails.id),
         value['meetingName'],
         startTime,
         value['meetingEndDate'],
         date,
         value['meetingDescription'],
-        value['meetingStatus'],
+        "approved",
         
         this.form.value.meetingRoom.id,
        this.employeeIddd,
       );
+      }else{
+        this.updatedEvent=new EventModel(Number(this.eventDetails.id),
+        value['meetingName'],
+        startTime,
+        value['meetingEndDate'],
+        date,
+        value['meetingDescription'],
+        "pending",
+        
+        this.form.value.meetingRoom.id,
+       this.employeeIddd,
+      );
+      }
+    
 
 
-     this.eventService.updateEvent(updatedEvent).subscribe(response=>{
+     this.eventService.updateEvent(this.updatedEvent).subscribe(response=>{
       this.message=response.message
       console.log("*************************"+ this.form.value.meetingRoom.name)
       this.holdingEvent=this.eventService.events[Number(this.id)]
       this.eventService.events[Number(this.id)]=(response.data[0]);
-      this.eventService.events[Number(this.id)].roomDto={};
-      this.eventService.events[Number(this.id)].roomDto.floor= updatedEvent.roomDto.floor,
-      this.eventService.events[Number(this.id)].roomDto.status=this.holdingEvent.roomDto.status||"",
-      this.eventService.events[Number(this.id)].meetingRoomId=response.data[0].meetingRoomId
       this.eventService.eventsChanged.next(this.eventService.events.slice());
       this.visible=false
 

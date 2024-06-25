@@ -88,5 +88,15 @@ full-calendar {
     padding: 10px;
     text-align: center;
   }
- /* ///////////////////////////////////////*/
- 
+
+
+.filter-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+full-calendar {
+  width: 100%;
+}

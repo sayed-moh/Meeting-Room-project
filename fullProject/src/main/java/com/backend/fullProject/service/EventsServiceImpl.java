@@ -53,6 +53,22 @@ public class EventsServiceImpl implements EventsService {
 
 	        return false; // No overlap
 	    }
+ public boolean isOverlappingForEdit(int id,LocalDate date, LocalTime startTime, LocalTime endTime,int meetingRoomId) {
+	        List<Events> eventsOnDate = eventsDao.findByDateAndMeetingRoomId(date,meetingRoomId);
+
+	        for (Events event : eventsOnDate) {
+	        	if(event.getId()==id)
+	        	{
+	        		continue;
+	        	}
+	            if ((startTime.isBefore(event.getEndTime()) && endTime.isAfter(event.getStartTime()))|| ((startTime.equals(event.getStartTime()))||(endTime.equals(event.getEndTime())))
+	            		) {
+	                return true; // Overlapping
+	            }
+	        }
+
+	        return false; // No overlap
+	    }
 
 	@Override
 	public Events addEvent( Events event) throws Exception {
@@ -78,13 +94,15 @@ public class EventsServiceImpl implements EventsService {
 
 	@Override
 	public Events editEvent(Events updatedEvent) throws Exception {
-		  if (isOverlapping(updatedEvent.getDate(), updatedEvent.getStartTime(), updatedEvent.getEndTime(),updatedEvent.getMeetingRoomId())) {
-	            throw new EventOverlapException("Event times overlap with an existing event.");
+	if	(isOverlappingForEdit(updatedEvent.getId(),updatedEvent.getDate(), updatedEvent.getStartTime(), updatedEvent.getEndTime(),updatedEvent.getMeetingRoomId())){       
+		throw new EventOverlapException("Event times overlap with an existing event.");
 	        }
 		if((updatedEvent.getStartTime().isAfter(updatedEvent.getEndTime()))){
           throw new EventWrongDate("Please Enter Time of Event In a right way");
 
-		}		return eventsDao.save(updatedEvent);
+		}		
+		
+		return eventsDao.save(updatedEvent);
 	}
 
 	@Override
@@ -102,5 +120,31 @@ public class EventsServiceImpl implements EventsService {
 	public List<Events> getPendingEvents(int empId) throws Exception {
 		return eventsDao.findPendingEventsByEmployeeId(empId);
 	}
+
+	@Override
+	public List<Events> getAllEventsByCountryId(int countryId) throws Exception {
+		
+		return eventsDao.findAllByCountryId(countryId);
+	}
+
+	@Override
+	public List<Events> getAllEventsByGovId(int govId) throws Exception {
+		// TODO Auto-generated method stub
+		return eventsDao.findAllByGovId(govId);
+	}
+
+	@Override
+	public List<Events> getAllEventsByOfficeId(int officeId) throws Exception {
+		// TODO Auto-generated method stub
+		return eventsDao.findAllByOfficeId(officeId);
+	}
+
+	@Override
+	public List<Events> getAllEventsByMeetingRoomId(int meetingRoomId) throws Exception {
+		// TODO Auto-generated method stub
+		return eventsDao.findByMeetingRoomId(meetingRoomId);
+	}
+	
+	
 
 }

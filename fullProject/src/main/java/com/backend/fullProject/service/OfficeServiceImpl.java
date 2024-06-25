@@ -51,4 +51,10 @@ public class OfficeServiceImpl implements OfficeService {
 		return officeDao.findByName(officeName);
 	}
 
+	@Override
+	public List<Office> getByGovId(int govId) throws Exception {
+		// TODO Auto-generated method stub
+		return officeDao.findByGovernmentId(govId);
+	}
+
 }

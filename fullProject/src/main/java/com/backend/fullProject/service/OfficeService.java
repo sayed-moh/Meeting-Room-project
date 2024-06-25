@@ -11,6 +11,6 @@ public interface OfficeService {
 	public Office addOffice(Office myOffice)throws Exception;
 	public Office editOffice(Office myOffice)throws Exception;
 	public Office getOfficeByName(String officeName)throws Exception;
-	
+	public List<Office> getByGovId(int govId)throws Exception;
 
 }

@@ -48,7 +48,6 @@ ngOnInit() {
 onEdit(eventModel:EventModel)
 {
   const index = this.events.findIndex(event => Number(event.id) === Number(eventModel.id));
-  console.log("fuck + "+index)
         if (index !== -1)
           {
      
