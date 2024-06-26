@@ -110,7 +110,7 @@ public class MeetingRoomController {
 			}catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();
-				return new ResponseEntity (new MRResponse("something Went wrong", meetingRooms),HttpStatus.NOT_FOUND);
+				return new ResponseEntity (new MRResponse("Please Select A meeting Room", meetingRooms),HttpStatus.NOT_FOUND);
 
 			}
 		

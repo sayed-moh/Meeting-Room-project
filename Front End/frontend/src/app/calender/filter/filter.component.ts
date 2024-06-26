@@ -84,6 +84,8 @@ export class FilterComponent implements OnInit{
     }
 
     onGovChange(event:any){
+      this.meetingRooms=[]
+      this.offices=[]
       if(this.selectedGovernment){
         this.sharedService.getAllOfficesByGovId(this.selectedGovernment.id).subscribe(offices=>{
           this.offices=offices
@@ -97,6 +99,8 @@ export class FilterComponent implements OnInit{
     }
 
     onOfficeChange(event:any){
+      this.meetingRooms=[]
+
       if(this.selectedOffice){
         this.sharedService.getMeetingRoomsByOfficeId(this.selectedOffice.id).subscribe(meetingRooms=>{
           this.meetingRooms=meetingRooms

@@ -35,8 +35,6 @@ ngOnInit() {
 
   this.eventService.eventsChanged.subscribe((events: EventModel[]) => {
     this.events = events;
-    console.log("*********************"+events[0].meetingRoomId)
-    // this.getMeetingRoomNameById(this.events[0].meetingRoomId)
 
 });
   this.eventService.getEventsByEmpId(Number(localStorage.getItem("employeeId")));

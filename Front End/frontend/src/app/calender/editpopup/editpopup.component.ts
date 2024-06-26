@@ -27,7 +27,7 @@ export class DialogBasicDemo implements OnInit{
    
     @Input() eventDetails: any;
     meetingRooms: meetingRoom[] =[];
-
+    
     message: string = '';
     messages!: Message[] ;
 
@@ -44,6 +44,7 @@ export class DialogBasicDemo implements OnInit{
      updatedEvent!:EventModel
     meetingRoooomId:any
     employeeIddd:any
+
     meetingRoomName!:string;
     showMyButton=false;
     meetingReserver!:string
@@ -99,11 +100,12 @@ export class DialogBasicDemo implements OnInit{
               this.employeeIddd
             ).subscribe(
               (response)=> {
-                this.meetingRoomName=response.meetingRoomName
+
                 this.meetingReserver=response.employeeName
-                console.log("yarab "+this.meetingRoomName)
+                this.meetingRoomName=response.meetingRoomName
 
                 if(this.showMyButton){
+                  
                   this.form.setValue({
                     "meetingName":this.title,
                     "meetingDescription":this.description,

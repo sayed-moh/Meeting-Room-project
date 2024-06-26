@@ -300,7 +300,7 @@ public class EventsController {
 
 		}catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity(new EventsResponse("Something Went wrong", EventsList),HttpStatus.NOT_FOUND);
+			return new ResponseEntity(new EventsResponse("Please Select A meeting Room", EventsList),HttpStatus.NOT_FOUND);
 
 		}
 	}
