@@ -34,6 +34,10 @@ import { DropdownModule } from 'primeng/dropdown';
 import { AddeventComponent } from './calender/addevent/addevent.component';
 import { ApprovalComponent } from './approval/approval.component';
 import { FilterComponent } from './calender/filter/filter.component';
+import { MyMeetingRoomsComponent } from './my-meeting-rooms/my-meeting-rooms.component';
+import { MeetingRoomService } from './shared/meeting-room.service';
+import { EditMeetingRoomComponent } from './my-meeting-rooms/edit-meeting-room/edit-meeting-room.component';
+import { AddRoomComponent } from './my-meeting-rooms/add-room/add-room.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +67,10 @@ import { FilterComponent } from './calender/filter/filter.component';
     AddeventComponent,
     SidebarComponent,
     MyeventsComponent,
+    MyMeetingRoomsComponent,
+    EditMeetingRoomComponent,
+    AddRoomComponent,
+
     HttpClientModule,
     SigninComponent,
     DropdownModule,    
@@ -73,7 +81,7 @@ import { FilterComponent } from './calender/filter/filter.component';
   ],
   providers: [EventService,OverlayPanelBasicDemo,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
-    ,SharedServiceService,AuthService],
+    ,SharedServiceService,AuthService,MeetingRoomService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

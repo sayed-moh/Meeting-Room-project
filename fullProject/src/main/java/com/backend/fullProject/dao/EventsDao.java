@@ -39,4 +39,6 @@ public interface EventsDao extends JpaRepository<Events, Integer> {
 	     List<Events> findAllByOfficeId(@Param("officeId") int officeId);
 	    
 	    List<Events> findByMeetingRoomId(int meetingRoomId);
+	    
+	    void deleteAllByMeetingRoomId(int roomId);
 }

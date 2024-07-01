@@ -77,11 +77,12 @@ export class AddeventComponent implements OnInit{
     const[date, time] = startDate.split('T');
     const endTime=this.form.value.meetingEndTime
     const description=this.form.value.meetingDescription
-    if(localStorage.getItem('role')==='ROLE_SENIOR'){
+    if(localStorage.getItem('role')!=='ROLE_JUNIOR'){
        this.newEvent=new EventModel(0,title,time,endTime,date,description,"approved"
         ,this.form.value.meetingRoom.id,Number(localStorage.getItem('employeeId')),{floor:this.form.value.meetingRoom.floor,
           status:this.form.value.meetingRoom.status
         })
+
     }else{
        this.newEvent=new EventModel(0,title,time,endTime,date,description,"pending"
         ,this.form.value.meetingRoom.id,Number(localStorage.getItem('employeeId')),{floor:this.form.value.meetingRoom.floor,

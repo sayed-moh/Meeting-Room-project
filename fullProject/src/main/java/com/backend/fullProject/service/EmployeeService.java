@@ -14,4 +14,5 @@ public interface EmployeeService {
 	public void deleteEmployee(int id) throws Exception;
 	public Employee findByEmail(String email)throws Exception;
 	public List<MeetingRoom> getMeetingRoomsByEmployeeId(int empId)throws Exception;
+	public List<Employee> getAllEmployeesByRole(String role)throws Exception;
 }

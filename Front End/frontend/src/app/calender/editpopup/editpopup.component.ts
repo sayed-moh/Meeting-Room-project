@@ -145,7 +145,7 @@ export class DialogBasicDemo implements OnInit{
       const value=this.form.value
       const[date, startTime] = value['meetingStartDate'].split('T');
       console.log("sswwwwwwwwww "+this.meetingRoooomId)
-      if(localStorage.getItem("role")==="ROLE_SENIOR"){
+      if(localStorage.getItem("role")!=="ROLE_JUNIOR"){
         this.updatedEvent=new EventModel(Number(this.eventDetails.id),
         value['meetingName'],
         startTime,

@@ -18,6 +18,7 @@ export class SharedServiceService {
 
    dataSource = new BehaviorSubject<boolean>(false);
    buttonSource=new BehaviorSubject<boolean>(false);
+   meetingSource=new BehaviorSubject<boolean>(false);
    
   changeData(value: boolean) {
     this.dataSource.next(value);
@@ -27,6 +28,11 @@ export class SharedServiceService {
   ToggleButton(value:boolean)
   {
     this.buttonSource.next(value)
+  }
+
+  ToggleMeeting(value:boolean)
+  {
+    this.meetingSource.next(value)
   }
  
   constructor(private http:HttpClient){}

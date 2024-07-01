@@ -53,6 +53,26 @@
                     'font-weight': 'bold',
                     }"
                 rounded="true"></button>
+
+                <button
+                type="button"
+                (click)="MeetingRooms()"  
+                label="Meeting Rooms"
+                *ngIf="toggleMeeting"
+                class="p-button-text"
+                pButton
+                [style]="{'width': '100%',
+                    'margin': '10px 0',
+                    'box-sizing': 'border-box',
+                    'text-align': 'center',
+                    'display': 'flex',    
+                    'align-items': 'center',
+                    'justify-content': 'center',
+                    'background-color': 'transparent',
+                    'font-size':'18px',
+                    'font-weight': 'bold',
+                    }"
+                rounded="true"></button>
            
     </p-sidebar>
     </div>

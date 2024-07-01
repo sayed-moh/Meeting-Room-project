@@ -107,7 +107,10 @@ public class CustomControllers {
 		try {
 			meetingRooms = mrService.getAllByOfficeId(id);
 			for (int i = 0; i < meetingRooms.size(); i++) {
-				meetingRoomsDto.add(new MRDto(meetingRooms.get(i)));
+				if(meetingRooms.get(i).getStatus().equals("opened")) {
+					meetingRoomsDto.add(new MRDto(meetingRooms.get(i)));
+
+				}
 			}
 			return new ResponseEntity(new MRResponse("all meeting rooms retrived successfully", meetingRoomsDto),
 					HttpStatus.OK);

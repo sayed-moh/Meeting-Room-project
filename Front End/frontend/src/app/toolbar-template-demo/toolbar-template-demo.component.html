@@ -26,6 +26,15 @@
          class="p-button-text"
          (click)="onAddEvent()"
          ></button>
+         <button
+         pButton 
+         type="button" 
+         label="Add Meeting Room" 
+         icon="pi pi-plus-circle" 
+         *ngIf="toggleMeeting"
+         class="p-button-text"
+         (click)="onAddMeetingRoom()"
+         ></button>
     
     </div>
 
@@ -41,5 +50,5 @@
         ></button>
     </div>
 </p-toolbar>
-
+<app-add-room #addRoom></app-add-room>
 <app-addevent #addEvent></app-addevent>

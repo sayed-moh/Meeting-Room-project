@@ -54,4 +54,10 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .getMeetingRooms();
 	}
 
+	@Override
+	public List<Employee> getAllEmployeesByRole(String role) throws Exception {
+		// TODO Auto-generated method stub
+		return employeeDao.findByRole(role);
+	}
+
 }

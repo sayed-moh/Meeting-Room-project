@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.backend.fullProject.dao.MeetingRoomDao;
 import com.backend.fullProject.entity.Employee;
+import com.backend.fullProject.entity.Events;
 import com.backend.fullProject.entity.MeetingRoom;
 import com.backend.fullProject.entity.Office;
 @Service
@@ -21,6 +22,9 @@ public class MRServiceImpl implements MRService {
 	
 	@Autowired
 	private EmployeeService employeeService;
+	
+	@Autowired
+	private EventsService eventService;
 
 	@Override
 	public List<MeetingRoom> getAll() throws Exception {
@@ -67,6 +71,30 @@ public class MRServiceImpl implements MRService {
 	public List<MeetingRoom> getAllByOfficeId(int officeId) throws Exception {
 		return mrDao.findByOfficeId(officeId);
 	}
+
+	@Override
+	public List<MeetingRoom> getAllMeetingRoomsByEmpId(int empId) throws Exception {
+		// TODO Auto-generated method stub
+		return mrDao.findMeetingRoomsByEmployeeId(empId);
+	}
+
+	@Override
+	 public void deleteMeetingRoom(int meetingRoomId) throws Exception {
+        MeetingRoom meetingRoom = mrDao.findById(meetingRoomId)
+            .orElseThrow(() -> new Exception("MeetingRoom not found"));
+
+        // Remove associations with employees
+        for (Employee employee : meetingRoom.getEmployees()) {
+            employee.getMeetingRooms().remove(meetingRoom);
+            employeeService.updateEmployee(employee);
+        }
+        List<Events> myEvents=eventService.getAllEventsByMeetingRoomId(meetingRoomId);
+        for(int i=0;i<myEvents.size();i++) {
+        	eventService.deleteEvent(myEvents.get(i).getId());
+        }
+        // Now delete the meeting room
+        mrDao.delete(meetingRoom);
+    }
 
 
 

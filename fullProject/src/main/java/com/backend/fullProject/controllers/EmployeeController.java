@@ -47,6 +47,26 @@ public class EmployeeController {
 		}
 	}
 	
+	@GetMapping(value="/employees/hrrole")
+	public ResponseEntity<?> getAllEmployeesByRole(){
+
+		List<Employee> myEmployees=new ArrayList<Employee>();
+		List<EmployeeDto> myEmployeesDto=new ArrayList<EmployeeDto>();
+		try {
+			
+			myEmployees=employeeService.getAllEmployeesByRole("ROLE_HR");
+			for(int i=0;i<myEmployees.size();i++) {
+				myEmployeesDto.add(new EmployeeDto(myEmployees.get(i)));
+			}
+			return new ResponseEntity (new EmployeeResponse("All Employees retrived Successfully",myEmployeesDto), HttpStatus.OK);
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity (new EmployeeResponse("There is no Employees in the DataBase"), HttpStatus.NOT_FOUND);
+
+		}
+	}
+	
 	
 	@GetMapping(value="employees/{id}")
 	public ResponseEntity<?> getById(@PathVariable int id){

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,10 +18,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.backend.fullProject.dto.EmployeeDto;
 import com.backend.fullProject.dto.MRDto;
+import com.backend.fullProject.entity.Employee;
 import com.backend.fullProject.entity.MeetingRoom;
+import com.backend.fullProject.model.EmployeeResponse;
+import com.backend.fullProject.model.EventsResponse;
 import com.backend.fullProject.model.MRResponse;
 import com.backend.fullProject.service.MRService;
+import com.backend.fullProject.service.OfficeService;
 
 @RestController
 @RequestMapping(value="/api")
@@ -30,14 +36,46 @@ public class MeetingRoomController {
 	@Autowired
 	private MRService mrService;
 	
+	@Autowired
+	private OfficeService officeService;
+	
 	@GetMapping(value="/meeting-room")
 	public ResponseEntity<?> getAll(){
 		List<MRDto> mrDtos=new ArrayList<MRDto>();
 		List<MeetingRoom> meetingRooms=new ArrayList<MeetingRoom>();
+		String officeName;
+		MRDto meetingRoomDto;
 		try {
 			meetingRooms=mrService.getAll();
 			for(int i=0;i<meetingRooms.size();i++) {
-				mrDtos.add(new MRDto(meetingRooms.get(i)));
+				officeName=officeService.getById(meetingRooms.get(i).getOfficeId()).getName();
+				 meetingRoomDto=new MRDto(meetingRooms.get(i));
+				 meetingRoomDto.setOfficeName(officeName);
+				mrDtos.add(meetingRoomDto);
+				
+			}
+			return new ResponseEntity (new MRResponse("all meeting rooms retrived successfully", mrDtos),HttpStatus.OK);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity (new MRResponse("something Went wrong", mrDtos),HttpStatus.NOT_FOUND);
+
+		}
+	}
+	
+	@GetMapping(value="/meeting-room/empId/{empId}")
+	public ResponseEntity<?> getAllMeetingRoomsByEmpId(@PathVariable int empId){
+		List<MRDto> mrDtos=new ArrayList<MRDto>();
+		List<MeetingRoom> meetingRooms=new ArrayList<MeetingRoom>();
+		String officeName;
+		MRDto meetingRoomDto;
+		try {
+			meetingRooms=mrService.getAllMeetingRoomsByEmpId(empId);
+			
+			for(int i=0;i<meetingRooms.size();i++) {
+				officeName=officeService.getById(meetingRooms.get(i).getOfficeId()).getName();
+				 meetingRoomDto=new MRDto(meetingRooms.get(i));
+				 meetingRoomDto.setOfficeName(officeName);
+				mrDtos.add(meetingRoomDto);
 				
 			}
 			return new ResponseEntity (new MRResponse("all meeting rooms retrived successfully", mrDtos),HttpStatus.OK);
@@ -80,10 +118,14 @@ public class MeetingRoomController {
 		meetingRoom.setId(0);
 		meetingRoom.setFloor(newMR.getFloor());
 		meetingRoom.setStatus(newMR.getStatus());
+		meetingRoom.setOfficeId(newMR.getOfficeId());
+	
 		try {
 			savedMeetingRoom=mrService.addMeetingRoom(empIds, meetingRoom);
 			System.out.println("******* "+savedMeetingRoom.toString());
-			meetingRoomsDto.add(new MRDto(savedMeetingRoom));
+			MRDto mrDtoooo=new MRDto(savedMeetingRoom);
+			mrDtoooo.setOfficeName(newMR.getOfficeName());
+			meetingRoomsDto.add(mrDtoooo);
 			return new ResponseEntity (new MRResponse("meeting rooms added successfully", meetingRoomsDto),HttpStatus.OK);
 		}catch (Exception e) {
 			// TODO: handle exception
@@ -96,7 +138,7 @@ public class MeetingRoomController {
 	}
 	
 	@PutMapping(value="/meeting-room/setStatus")
-	public ResponseEntity<?> updateMeetingRoom(@RequestBody MRDto meetingRoomDto){
+	public ResponseEntity<?> updateMeetingRoomStatus(@RequestBody MRDto meetingRoomDto){
 	
 		 MeetingRoom savedMeetingRoom=new MeetingRoom();
 		 List<MRDto> meetingRooms=new ArrayList<MRDto>();		 
@@ -110,10 +152,47 @@ public class MeetingRoomController {
 			}catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();
-				return new ResponseEntity (new MRResponse("Please Select A meeting Room", meetingRooms),HttpStatus.NOT_FOUND);
+				return new ResponseEntity (new MRResponse("something Went wrong", meetingRooms),HttpStatus.NOT_FOUND);
 
 			}
 		
+	}
+	
+	@PutMapping(value="/meeting-room")
+	public ResponseEntity<?> updateMeetingRoom(@RequestBody MRDto myMeetingRoomDto){
+		MeetingRoom myMeetingRoom=new MeetingRoom();
+		MeetingRoom updatedMeetingRoom=new MeetingRoom();
+
+		List<MRDto> myMeetingRoomDtos=new ArrayList<MRDto>();
+		try {
+			myMeetingRoom=mrService.getById(myMeetingRoomDto.getId());
+			myMeetingRoom.setFloor(myMeetingRoomDto.getFloor());
+			myMeetingRoom.setStatus(myMeetingRoomDto.getStatus());
+			myMeetingRoom.setOfficeId(myMeetingRoomDto.getOfficeId());
+			updatedMeetingRoom=mrService.updateMeetingRoom(myMeetingRoom);
+			
+			 MRDto meetingRoomDto=new MRDto(updatedMeetingRoom);
+			myMeetingRoomDtos.add(meetingRoomDto);
+			return new ResponseEntity (new MRResponse(" Employee  updated Successfully",myMeetingRoomDtos), HttpStatus.OK);
+
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity (new MRResponse("employee couldnt update "), HttpStatus.NOT_FOUND);
+		}
+		
+	}
+	
+	@DeleteMapping(value="/meeting-room/{roomId}")
+	public ResponseEntity<?> deleteEvent(@PathVariable int roomId)
+	{
+		try {
+			mrService.deleteMeetingRoom(roomId);
+			return new ResponseEntity(new MRResponse("Meeting Room is deleted Successfully"),HttpStatus.OK);
+		}catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity(new MRResponse("Something Went wrong"),HttpStatus.NOT_FOUND);
+
+		}
 	}
 
 

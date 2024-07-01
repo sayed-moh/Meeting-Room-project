@@ -11,4 +11,6 @@ public interface MRService {
 	public MeetingRoom addMeetingRoom (List<Integer> empId,MeetingRoom newMR)throws Exception;
 	public MeetingRoom updateMeetingRoom (MeetingRoom newMR)throws Exception;
 	public List<MeetingRoom> getAllByOfficeId(int officeId) throws Exception;
+	public List<MeetingRoom> getAllMeetingRoomsByEmpId(int empId) throws Exception;
+	public void deleteMeetingRoom(int meetingRoomId)throws Exception;
 }

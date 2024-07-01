@@ -144,6 +144,11 @@ public class EventsServiceImpl implements EventsService {
 		// TODO Auto-generated method stub
 		return eventsDao.findByMeetingRoomId(meetingRoomId);
 	}
+
+	@Override
+	public void deleteByRoomId(int roomId) throws Exception {
+		eventsDao.deleteAllByMeetingRoomId(roomId);
+	}
 	
 	
 

@@ -18,7 +18,7 @@ import { CommonModule } from '@angular/common';
 export class SidebarComponent implements OnInit {
   data: boolean=false;
   seen: boolean=false;
-
+  toggleMeeting:boolean =false;
   subscription!:Subscription
   @ViewChild('sidebarRef') sidebarRef!: Sidebar;
  
@@ -30,20 +30,26 @@ export class SidebarComponent implements OnInit {
     this.data=false;
     this.subscription=this.sharedService.dataSource.subscribe(value => this.data = value);
     this.sharedService.changeData(false);
-    if(this.empRole==='ROLE_SENIOR'){
+    if(this.empRole==='ROLE_HR'){
       this.seen=true
     }
+    if(this.empRole==='ROLE_IT'){
+      this.toggleMeeting=true
+    }
+
   }
-  // makeitseen()
-  // {
-  //   this.seen=!this.seen;
-  //   console.log(this.seen)
-  // }
+
   toApprove(){
    
     this.router.navigate(['/approve'],{relativeTo:this.route})
   }
- 
+  MeetingRooms(){
+    this.data=false;
+
+    this.router.navigate(['/meetingRooms'])
+    this.sharedService.changeData(false);
+
+  }
   goToEvents()
   {
     this.data=false;

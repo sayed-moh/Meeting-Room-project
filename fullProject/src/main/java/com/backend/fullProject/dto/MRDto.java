@@ -12,7 +12,7 @@ public class MRDto {
 	private String status;
 	private List<Integer> employeeId=new ArrayList<Integer>();
 	private int officeId;
-	
+	private String officeName;
 	public MRDto() {}
 	
 	public MRDto(MeetingRoom meetingRoom) {
@@ -68,13 +68,13 @@ public class MRDto {
 		this.officeId = officeId;
 	}
 
-//	public String getOfficeName() {
-//		return officeName;
-//	}
-//
-//	public void setOfficeName(String officeName) {
-//		this.officeName = officeName;
-//	}
+	public String getOfficeName() {
+		return officeName;
+	}
+
+	public void setOfficeName(String officeName) {
+		this.officeName = officeName;
+	}
 	
 	
 	

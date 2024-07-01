@@ -6,6 +6,7 @@ import { CalenderGridComponent } from './calender/calender-grid/calender-grid.co
 import { MyeventsComponent } from './myevents/myevents.component';
 import { AuthGuard } from './auth.guard';
 import { ApprovalComponent } from './approval/approval.component';
+import { MyMeetingRoomsComponent } from './my-meeting-rooms/my-meeting-rooms.component';
 
 const routes: Routes = [
   {path:'',redirectTo:'/signin',pathMatch:"full"},
@@ -14,6 +15,7 @@ const routes: Routes = [
   {path:'dashboard',component:CalenderGridComponent ,canActivate:[AuthGuard]},
   {path:'events',component:MyeventsComponent,canActivate:[AuthGuard]},
   {path:'approve',component:ApprovalComponent ,canActivate:[AuthGuard]},
+  {path:'meetingRooms',component:MyMeetingRoomsComponent,canActivate:[AuthGuard]},
 
 ];
 

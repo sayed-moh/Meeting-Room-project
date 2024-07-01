@@ -11,17 +11,28 @@ import { EventModel } from '../shared/eventModel';
 import { SharedServiceService } from '../shared/shared-service.service';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { CommonModule } from '@angular/common';
+import { AddRoomComponent } from '../my-meeting-rooms/add-room/add-room.component';
 
 @Component({
     selector: 'toolbar-template-demo',
     templateUrl: './toolbar-template-demo.component.html',
     standalone: true,
-    imports: [ToolbarModule, ButtonModule, AvatarModule, SharedModule, AddeventComponent, SidebarComponent,CommonModule]
+    imports: [ToolbarModule, ButtonModule,CommonModule, AvatarModule, SharedModule,AddRoomComponent, AddeventComponent, SidebarComponent,CommonModule]
 })
-export class ToolbarTemplateDemo {
+export class ToolbarTemplateDemo implements OnInit {
   @ViewChild('addEvent') addEvent!:AddeventComponent;
+  @ViewChild('addRoom') addRoom!:AddRoomComponent
   seen: boolean=false;
+  toggleMeeting:Boolean=false;
+  empRole=localStorage.getItem('role')
+  subscription!: Subscription;
   constructor(private sharedService:SharedServiceService,private route:ActivatedRoute,private router:Router,private eventService:EventService){}
+  ngOnInit(): void {
+    this.subscription=this.sharedService.meetingSource.subscribe(value => this.toggleMeeting = value);
+    if(this.empRole==='ROLE_IT'){
+      this.toggleMeeting=true
+    }
+  }
 
 
   onSidebar(){
@@ -37,6 +48,9 @@ export class ToolbarTemplateDemo {
   toDashboard()
   {
     this.router.navigate(['/dashboard'],{relativeTo:this.route})
+  }
+  onAddMeetingRoom(){
+    this.addRoom.showDialog()
   }
 
   onSignout(){
