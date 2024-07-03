@@ -38,12 +38,12 @@ import { MyMeetingRoomsComponent } from './my-meeting-rooms/my-meeting-rooms.com
 import { MeetingRoomService } from './shared/meeting-room.service';
 import { EditMeetingRoomComponent } from './my-meeting-rooms/edit-meeting-room/edit-meeting-room.component';
 import { AddRoomComponent } from './my-meeting-rooms/add-room/add-room.component';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [
     AppComponent,
     SignupComponent,
-    CalenderGridComponent,
     
     
 
@@ -53,6 +53,8 @@ import { AddRoomComponent } from './my-meeting-rooms/add-room/add-room.component
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    CalenderGridComponent,
+
     AppRoutingModule,DropdownComponent,FormsModule,
     MatDialogModule,
     MatFormFieldModule,
@@ -81,7 +83,7 @@ import { AddRoomComponent } from './my-meeting-rooms/add-room/add-room.component
   ],
   providers: [EventService,OverlayPanelBasicDemo,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
-    ,SharedServiceService,AuthService,MeetingRoomService],
+    ,SharedServiceService,AuthService,MeetingRoomService,ConfirmationService, MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

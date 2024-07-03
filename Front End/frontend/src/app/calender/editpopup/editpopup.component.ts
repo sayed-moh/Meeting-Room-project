@@ -180,6 +180,7 @@ export class DialogBasicDemo implements OnInit{
       this.eventService.events[Number(this.id)]=(response.data[0]);
       this.eventService.eventsChanged.next(this.eventService.events.slice());
       this.visible=false
+      this.sharedService.messageSource.next(true)
 
      }, error => 
       {

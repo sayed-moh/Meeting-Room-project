@@ -2,6 +2,9 @@
     <toolbar-template-demo></toolbar-template-demo>
     <app-sidebar></app-sidebar>
     <app-edit-meeting-room #editMettingRoom></app-edit-meeting-room>
+    <p-toast />
+<p-confirmPopup />
+
     <p-table
         [value]="meetingRooms"
         [tableStyle]="{ 'border-radius': '3rem','background-image': 'linear-gradient(to right, #003973, #e5e5be)',
@@ -42,9 +45,11 @@
                 </td>
                 <td>
                     <p-button 
+
                         label="Delete" 
                         icon="pi pi-times"  
-                        (click)="onDelete(meetingRoom)"
+                        severity="danger" 
+                        (click)="onDelete(meetingRoom,$event)"
                         [style]="{'background-color': 'red'}"
                     ></p-button>
                 </td>

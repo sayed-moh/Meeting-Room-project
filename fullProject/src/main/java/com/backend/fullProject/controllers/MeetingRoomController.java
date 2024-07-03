@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.backend.fullProject.customExceptoins.StatusException;
 import com.backend.fullProject.dto.EmployeeDto;
 import com.backend.fullProject.dto.MRDto;
 import com.backend.fullProject.entity.Employee;
@@ -173,11 +174,14 @@ public class MeetingRoomController {
 			
 			 MRDto meetingRoomDto=new MRDto(updatedMeetingRoom);
 			myMeetingRoomDtos.add(meetingRoomDto);
-			return new ResponseEntity (new MRResponse(" Employee  updated Successfully",myMeetingRoomDtos), HttpStatus.OK);
+			return new ResponseEntity (new MRResponse(" Meeting Room updated Successfully",myMeetingRoomDtos), HttpStatus.OK);
 
+		}catch (StatusException e) {
+			e.printStackTrace();
+			return new ResponseEntity (new MRResponse("You should enter a status for meeting room",new ArrayList<MRDto>()), HttpStatus.OK);
 		}catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity (new MRResponse("employee couldnt update "), HttpStatus.NOT_FOUND);
+			return new ResponseEntity (new MRResponse("Meeting Room couldnt update "), HttpStatus.NOT_FOUND);
 		}
 		
 	}

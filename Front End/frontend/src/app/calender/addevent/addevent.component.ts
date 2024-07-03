@@ -7,7 +7,7 @@ import { DialogModule } from 'primeng/dialog';
 import { EventService } from '../../shared/eventService';
 import { EventModel } from '../../shared/eventModel';
 import { DropdownModule } from 'primeng/dropdown';
-import { Message } from 'primeng/api';
+import { Message, MessageService } from 'primeng/api';
 import { MessagesModule } from 'primeng/messages';
 import { CommonModule } from '@angular/common';
 import { SharedServiceService } from '../../shared/shared-service.service';
@@ -33,7 +33,7 @@ export class AddeventComponent implements OnInit{
 
   message: string = '';
   messages!: Message[] ;
-  constructor(private eventService:EventService,private sharedService:SharedServiceService){}
+  constructor(private messageService:MessageService,private eventService:EventService,private sharedService:SharedServiceService){}
   ngOnInit(): void {
     this.sharedService.buttonSource.subscribe(value => this.showMyButton = value);
 
@@ -108,6 +108,9 @@ export class AddeventComponent implements OnInit{
         this.form.reset()
     
         this.visible=false
+        this.messageService.add({ severity: 'info', summary: "Confirmed", detail: response.message, life: 3000 });
+
+   
       },
       error => 
       {

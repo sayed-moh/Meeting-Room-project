@@ -24,9 +24,9 @@ export class MeetingRoomService {
         )
   }
 
-  updateMeetingRoom(updatedMeetingRoom:meetingRoomModel):Observable<any[]>{
+  updateMeetingRoom(updatedMeetingRoom:meetingRoomModel):Observable<any>{
     return this.http.put<{message:string,data:any[]}>(`http://localhost:8030/api/meeting-room`,updatedMeetingRoom).pipe(
-      map(response=>response.data)
+      map(response=>response)
     )
   }
 
@@ -35,12 +35,12 @@ export class MeetingRoomService {
       map(response=>response.data)
     )
   }
-  addNewMeetingRoom(newMeetingRoom:meetingRoomModel):Observable<any[]>{
+  addNewMeetingRoom(newMeetingRoom:meetingRoomModel):Observable<any>{
     return this.http.post<{message:string,data:any[]}>(`http://localhost:8030/api/meeting-room`,newMeetingRoom).pipe(
-      map(response=>response.data)
+      map(response=>response)
     )
   }
-  deleteMeetingRoom(roomId:number):void{
+  deleteMeetingRoom(roomId:number,callback:(message:string)=>void):void{
     const index = this.meetingRooms.findIndex(meetingRoomModel => Number(meetingRoomModel.id) === Number(roomId));
     if (index !== -1) {
     this.http.delete<{message:string,data:any[]}>(`http://localhost:8030/api/meeting-room/${roomId}`).pipe(
@@ -48,7 +48,7 @@ export class MeetingRoomService {
     ).subscribe(
       response=>{
         console.log("sekas :"+response.message)
-
+        callback(response.message)
       }
     )
     this.meetingRooms.splice(index,1)

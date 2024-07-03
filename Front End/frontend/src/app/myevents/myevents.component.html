@@ -4,7 +4,8 @@
 <toolbar-template-demo></toolbar-template-demo>
 <app-sidebar ></app-sidebar>
 <dialog-basic-demo #editEvent></dialog-basic-demo>
- 
+<p-toast />
+<p-confirmPopup />
 
     <p-table
         [value]="events"
@@ -46,12 +47,13 @@
 
                     (onClick)="onEdit(event)" />
                 </td>
+                
                 <td>
                     <p-button label="Delete" 
                     icon="pi pi-times"  
-
+                    severity="danger" 
                     [style]="{'background-color': 'red'}"
-                    (onClick)="ondelete(event)"/>
+                    (click)="ondelete(event,$event)"/>
                 </td>
                 
                 

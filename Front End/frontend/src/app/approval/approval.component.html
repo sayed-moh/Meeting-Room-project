@@ -1,5 +1,7 @@
 <toolbar-template-demo></toolbar-template-demo>
 <app-sidebar ></app-sidebar>
+<p-toast />
+<p-confirmPopup />
 <p-table
         [value]="pendingEvents"
         [tableStyle]="{ 'border-radius': '3rem','background-image': 'linear-gradient(to right, #003973, #e5e5be)',
@@ -41,13 +43,17 @@
                     <p-button
                     label="Approve"
                     icon="pi pi-check"
-                    (onClick)="onApprove(event)" />
+                    severity="danger" 
+
+                    (onClick)="onApprove(event,$event)" />
                 </td>
                 <td>
                     <p-button label="Decline"
                     icon="pi pi-times"  
+                    severity="danger" 
+
                     [style]="{'background-color': 'red'}"
-                    (onClick)="onDecline(event)"/>
+                    (onClick)="onDecline(event,$event)"/>
                 </td>
                
                

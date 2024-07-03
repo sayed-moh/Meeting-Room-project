@@ -14,11 +14,24 @@ import { DialogBasicDemo } from '../editpopup/editpopup.component';
 import { Subscription } from 'rxjs';
 import { SidebarComponent } from '../../sidebar/sidebar.component';
 import { SharedServiceService } from '../../shared/shared-service.service';
+import { ToastModule } from 'primeng/toast';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { CommonModule } from '@angular/common';
+import { DialogModule } from 'primeng/dialog';
+import { ButtonModule } from 'primeng/button';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { TableModule } from 'primeng/table';
+import { ToolbarTemplateDemo } from '../../toolbar-template-demo/toolbar-template-demo.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { FilterComponent } from '../filter/filter.component';
 
 @Component({
   selector: 'app-calender-grid',
  templateUrl: './calender-grid.component.html',
-
+ providers: [ConfirmationService, MessageService],
+ imports: [ButtonModule, ToastModule,OverlayPanelBasicDemo,OverlayPanelModule,FullCalendarModule,FilterComponent, ConfirmPopupModule,TableModule, SelectButtonModule, CommonModule, ToolbarTemplateDemo, SidebarComponent,DialogBasicDemo],
+ standalone:true,
   styleUrls: ['./calender-grid.component.css'],
   encapsulation: ViewEncapsulation.None
 })

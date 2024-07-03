@@ -16,6 +16,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { DialogModule } from 'primeng/dialog';
 import { MeetingRoomService } from '../../shared/meeting-room.service';
 import { meetingRoomModel } from '../../shared/meetingRoomModel';
+import { MessageService } from 'primeng/api';
 interface employee{
   id:number,
   email:string;
@@ -75,7 +76,7 @@ export class AddRoomComponent implements OnInit {
   employees:employee[]|undefined
   selectedEmployees!:employee[]
 
-  constructor(private meetingRoomService:MeetingRoomService,private eventServie:EventService,private sharedService:SharedServiceService){}
+  constructor(private messageService:MessageService,private meetingRoomService:MeetingRoomService,private eventServie:EventService,private sharedService:SharedServiceService){}
 
   ngOnInit() {
     this.meetingRoomStatuses=[{status:"closed"},{status:"opened"}]
@@ -148,10 +149,14 @@ export class AddRoomComponent implements OnInit {
       this.newMeetingRoomOfficeName
     )
     this.meetingRoomService.addNewMeetingRoom(this.newMeetingRoom).subscribe(response=>{
-      this.meetingRoomService.meetingRooms.push(response[0])
+      this.meetingRoomService.meetingRooms.push(response.data[0])
       this.meetingRoomService.meetingRoomChanged.next(this.meetingRoomService.meetingRooms.slice())
+      this.visible=false
+
+      this.messageService.add({ severity: 'info', summary: "Confirmed", detail: response.message, life: 3000 });
+
     })
     this.form.reset()
-    this.visible=false
+
   }
 }

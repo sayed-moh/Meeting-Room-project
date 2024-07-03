@@ -19,7 +19,7 @@ export class SharedServiceService {
    dataSource = new BehaviorSubject<boolean>(false);
    buttonSource=new BehaviorSubject<boolean>(false);
    meetingSource=new BehaviorSubject<boolean>(false);
-   
+   messageSource=new BehaviorSubject<boolean>(false);
   changeData(value: boolean) {
     this.dataSource.next(value);
     console.log("inside service");
@@ -33,6 +33,9 @@ export class SharedServiceService {
   ToggleMeeting(value:boolean)
   {
     this.meetingSource.next(value)
+  }
+  toggleMessage(value:boolean){
+    this.messageSource.next(value)
   }
  
   constructor(private http:HttpClient){}

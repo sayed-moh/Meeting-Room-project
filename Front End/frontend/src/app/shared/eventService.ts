@@ -12,7 +12,7 @@ export class EventService{
     constructor(private http:HttpClient){}
     private apiUrl='http://localhost:8030/api/events'
    
-
+        deletionMessage!:string
      events:EventModel[]=[    ]
     eventsChanged = new BehaviorSubject<EventModel[]>([]);
 
@@ -158,10 +158,10 @@ export class EventService{
     }
     editEventStatus(eventModel:EventModel):void{
         this.http.put<{message:string,data:any[]}>(`http://localhost:8030/api/events`,eventModel).pipe(
-            map(response=>response.data[0])
+            map(response=>response)
         ).subscribe(
            event=>{
-            console.log(event.status)
+            console.log(event.message)
            } 
         )
     }
@@ -194,19 +194,26 @@ export class EventService{
         )
 
     }
-    deleteEvent(id:number):void
+    deleteEvent(id:number, callback: (message: string) => void):void
     {
         const index = this.events.findIndex(event => Number(event.id) === id);
         if (index !== -1) {
         this.http.delete<{message:string}>(`http://localhost:8030/api/events/${id}`).pipe(
             map(response =>response.message )
         ).subscribe(message=>{
-            console.log(message)
-        })
+            console.log("service +"+message)
+            callback(message)            
+            console.log("service +"+ this.deletionMessage)
+
+            })
 
         this.events.splice(index,1);
         this.eventsChanged.next(this.events.slice());
-        }
+        console.log("event service deletionMessage "+this.deletionMessage)
 
+        }else{
+            callback("Event not found");
+
+        }
     }
 }

@@ -32,16 +32,18 @@ export class EditMeetingRoomComponent implements OnInit{
   updatedMeetingRoom!:meetingRoomModel
   meetingRoomStatuses!:MeetingRoomStatus[]
   selectedStatus!:string
-
+  messages!: Message[] ;
+  showMessage:boolean=false
   ngOnInit(): void {
   this.meetingRoomStatuses=[{status:"closed"},{status:"opened"}]
   }
   visible: boolean = false;
   @Input()meetingRoom!:meetingRoomModel;
   index!:string
-  constructor(private meetingRoomService:MeetingRoomService){}
+  constructor(private sharedService:SharedServiceService,private meetingRoomService:MeetingRoomService){}
 
   showDialog(index:string){
+    this.messages=[]
     this.index=index
     this.selectedStatus=this.meetingRoom.status
     this.form.setValue({
@@ -65,13 +67,24 @@ export class EditMeetingRoomComponent implements OnInit{
     console.log(this.index)
     console.log(this.meetingRoom.id)
     this.meetingRoomService.updateMeetingRoom(this.updatedMeetingRoom).subscribe(response=>{
-      this.meetingRoomService.meetingRooms[Number(this.index)]=response[0]
-      this.meetingRoomService.meetingRooms[Number(this.index)].officeName=this.meetingRoom.officeName
-      this.meetingRoomService.meetingRoomChanged.next(this.meetingRoomService.meetingRooms.slice())
+      if(response.data.length!==0){
+        this.meetingRoomService.meetingRooms[Number(this.index)]=response.data[0]
+        this.meetingRoomService.meetingRooms[Number(this.index)].officeName=this.meetingRoom.officeName
+        this.meetingRoomService.meetingRoomChanged.next(this.meetingRoomService.meetingRooms.slice())
+        this.visible=false
+        this.sharedService.toggleMessage(true)
+      }else{
+        this.messages = [
+      
+          { severity: 'error', detail: response.message },
+  
+      ];
+      }
+   
+      console.log(response.message)
     }
       
     )
-    this.visible=false
   }
 
 }

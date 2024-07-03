@@ -1,11 +1,11 @@
 <p-dialog header="Edit Meeting" [modal]="true" [(visible)]="visible"  [draggable]="false" >
 
     <form #form="ngForm" (ngSubmit)="onSaveEdit(form)" style="width: 500px;" >
-        <!--
-      <div >
+        
+      <div class="card">
         <p-messages [(value)]="messages" [enableService]="false" />
     </div>
-    -->
+   
         <div data-mdb-input-init class="form-outline mb-4">
             <label class="form-label" for="MeetingRoomFloor">Meeting Room Floor</label>
             <input type="text" id="MeetingRoomFloor" class="form-control form-control-lg" readonly
@@ -25,15 +25,7 @@
               </div>
         </div>
 
-<!--
-        <div data-mdb-input-init class="form-outline mb-4">
-            <label class="form-label" for="meetingRoomStatus">Meeting Room Status</label>
-            <input type="text" id="meetingRoomStatus" class="form-control form-control-lg"  
-              name="meetingRoomStatus" ngModel  />
-              
-        </div>
 
-        -->
         
         <div  data-mdb-input-init class="form-outline mb-4">
             <label class="form-label" for="meetingRoomStatus">Meeting Room Status</label>

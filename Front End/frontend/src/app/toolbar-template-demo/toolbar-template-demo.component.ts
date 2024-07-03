@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ToolbarModule } from 'primeng/toolbar';
 import { AvatarModule } from 'primeng/avatar';
-import {  SharedModule } from 'primeng/api';
+import {  MessageService, SharedModule } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { AddeventComponent } from '../calender/addevent/addevent.component';
@@ -24,10 +24,12 @@ export class ToolbarTemplateDemo implements OnInit {
   @ViewChild('addRoom') addRoom!:AddRoomComponent
   seen: boolean=false;
   toggleMeeting:Boolean=false;
+
   empRole=localStorage.getItem('role')
   subscription!: Subscription;
-  constructor(private sharedService:SharedServiceService,private route:ActivatedRoute,private router:Router,private eventService:EventService){}
+  constructor(private messageService:MessageService,private sharedService:SharedServiceService,private route:ActivatedRoute,private router:Router,private eventService:EventService){}
   ngOnInit(): void {
+ 
     this.subscription=this.sharedService.meetingSource.subscribe(value => this.toggleMeeting = value);
     if(this.empRole==='ROLE_IT'){
       this.toggleMeeting=true

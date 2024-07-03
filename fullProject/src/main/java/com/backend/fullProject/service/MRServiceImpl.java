@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.backend.fullProject.customExceptoins.StatusException;
 import com.backend.fullProject.dao.MeetingRoomDao;
 import com.backend.fullProject.entity.Employee;
 import com.backend.fullProject.entity.Events;
@@ -13,6 +14,7 @@ import com.backend.fullProject.entity.MeetingRoom;
 import com.backend.fullProject.entity.Office;
 @Service
 public class MRServiceImpl implements MRService {
+	boolean flag=false;
 	
 	@Autowired
 	private MeetingRoomDao mrDao;
@@ -64,7 +66,15 @@ public class MRServiceImpl implements MRService {
 
 	@Override
 	public MeetingRoom updateMeetingRoom(MeetingRoom newMR) throws Exception {
-		return mrDao.save(newMR);
+//		if(newMR.getStatus().equals("closed")||newMR.getStatus().equals("opened")) {
+//			flag=true;
+//		}
+		if(newMR.getStatus()!=null) {
+			return mrDao.save(newMR);
+
+		}else {
+			throw new StatusException("you should enter a meeting room status");
+		}
 	}
 
 	@Override
